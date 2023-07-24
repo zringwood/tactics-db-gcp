@@ -1,0 +1,47 @@
+@use "../styles/partials" as *;
+
+.board-container{
+    margin: 0 $mobile-indent;
+    @include tablet{
+        margin: 0 $tablet-indent;
+    }
+    @include desktop{
+        margin: 0 $desktop-indent;
+    }
+}
+body{
+    background-color: $square-light;
+}
+.navbutton{
+    background-color: rgba(#000000,  0);
+    border:none;
+    outline:none;
+    
+    &--forward{
+        background-image: url('../assets/chevron-right.svg');
+        width: 2rem;
+        height:2rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        
+    }
+    &--backward{
+        background-image: url('../assets/chevron-left.svg');
+        width: 2rem;
+        height:2rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-right:auto;
+    }
+}
+.navpanel{
+    display:flex;
+    flex-direction: row;
+    margin: $mobile-indent;
+    @include tablet{
+        margin: $tablet-indent;
+    }
+    @include desktop{
+        margin: $tablet-indent $desktop-indent;
+    }
+}

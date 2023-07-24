@@ -1,0 +1,17 @@
+@use "../../styles/partials" as *;
+
+.panel{
+    background-color: $square-dark;
+    border-radius: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5 );
+    width: 60vw;
+    height: 60vh;
+    position: fixed;
+    top: 1rem;
+    right: -65vw;
+    z-index: 20;
+}
+.panel--animation{
+    transition: 1.5s;
+    transform: translateX(-65vw);
+}

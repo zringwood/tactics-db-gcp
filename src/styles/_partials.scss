@@ -1,0 +1,35 @@
+//Colors
+$square-dark:rgb(181, 136,99);
+$square-light:rgb(240, 217,181);
+$tablet-breakpoint: 768px;
+$desktop-breakpoint: 1280px;
+@mixin tablet {
+  @media (min-width: $tablet-breakpoint) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop-breakpoint) {
+    @content;
+  }
+}
+
+*{
+  box-sizing: border-box;
+}
+//Margins for these pages are consistent, so they're defined here as variables.
+$mobile-indent: 1rem;
+$tablet-indent: 2.25rem;
+
+//This needs to change based on the width of the window.
+//We get the width with 100vw, find how much larger the window is than our desktop breakpoint,
+//then divide it by 2 so that the indent can be applied to both sides.
+$base-desktop-indent: 7.5rem;
+$desktop-indent: calc(
+  $base-desktop-indent + ((1vw * 100) - $desktop-breakpoint) / 2
+);
+
+a {
+  text-decoration: none;
+}

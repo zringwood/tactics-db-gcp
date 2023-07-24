@@ -1,0 +1,42 @@
+@use "../../styles/partials" as *;
+.navbar{
+    background-color: $square-light;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    height:4rem;
+    padding: 0 $mobile-indent;
+    @include tablet{
+        padding: 0 $tablet-indent;
+    }
+    &__link{
+        
+        background-color: $square-light;
+        
+    }
+    &__text{
+        color:black;
+        margin: 0;
+    }
+    &__settings{
+        background-image: url('../../assets/settings.svg');
+        width: 2rem;
+        height:2rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border:none;
+        outline: none;
+        background-color: rgba(#000, 0);
+        z-index: 20;
+        &--animate{
+            transition: 1.5s;
+            transform: rotate(360deg);
+        }
+    }
+}
+.active{
+    background-color: $square-dark;
+}
