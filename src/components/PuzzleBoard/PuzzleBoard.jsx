@@ -2,54 +2,52 @@ import { useState, useEffect } from "react"
 import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
 
-let moveIndex = 0
-function PuzzleBoard({ positionFEN, movestrPGN }) {
+//This doesn't work with state because setState is asynchronous.  
+let moveIndex = 0;
+function PuzzleBoard({ positionFEN, movesArray, orientation }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
-    const [position, setPosition] = useState(positionFEN)
-    //We updated the state variables using usEffect so that they actually change on load
+    //This is needed to trigger a rerender in the chessboard component. 
     useEffect(() => {
-        setPosition(positionFEN);
         setMoveLogic(new Chess(positionFEN));
         //moveIndex must be reset when the puzzle resets.
         moveIndex = 0;
     }, [positionFEN])
-    
-    const delayInMillis = 500
-    const moveNumberOrGameResult = /(\d\.|[01]-[01])+/
-    //Convert the move string to a move array and gut the headers. 
-    let movesArray = movestrPGN.split(' ').filter((element) => !element.match(moveNumberOrGameResult))
-   
     const onDrop = (sourceSquare, targetSquare) => {
-        let moveAlgebraic = convertObjectToAlgebraic(sourceSquare, targetSquare)
-        
-        if (isCorrectMove(moveAlgebraic)) {
-            updatePuzzle(moveAlgebraic)
-        }
-        if (!isEndofPuzzle()) {
-            setTimeout(() => {
-                updatePuzzle(movesArray[moveIndex])
-            }, delayInMillis)
+        let move = `${sourceSquare}${targetSquare}`
+        if (isCorrectMove(move)) {
+            updatePuzzle(move)
+            if (!isEndofPuzzle()) {
+                const halfSecond = 500
+                setTimeout(() => {
+                    updatePuzzle(movesArray[moveIndex])
+                }, halfSecond)
+            }
         }
     }
-    const convertObjectToAlgebraic = (sourceSquare, targetSquare) => {
-        return `${moveLogic.get(sourceSquare).type.toUpperCase()}${!!moveLogic.get(targetSquare).type ? 'x' : ''}${targetSquare}`
-    }
-    const isCorrectMove = (moveAlgebraic) => {
-        const specialPGNCharacters = /([#+])+/
-        const noCharacter = ''
-        return moveAlgebraic === movesArray[moveIndex].replace(specialPGNCharacters, noCharacter)
+    const isCorrectMove = (move) => {
+        return move === movesArray[moveIndex]
     }
     const isEndofPuzzle = () => {
         return moveIndex >= movesArray.length
     }
-    const updatePuzzle = (moveAlgebraic) => {
-        moveLogic.move(moveAlgebraic)
-        moveIndex += 1
-        setPosition(moveLogic.fen())
+    const updatePuzzle = (move) => {
+        moveLogic.move(move)
+        console.log("Reached")
+        moveIndex += 1;
+        setMoveLogic(new Chess(moveLogic.fen()))
+    }
+    //Plays the first move. 
+    if (moveIndex === 0) {
+        moveIndex += 1;
+        setTimeout(() => {
+            moveLogic.move(movesArray[0])
+            setMoveLogic(new Chess(moveLogic.fen()))
+        }, 500)
     }
     return (
         <>
-            <Chessboard position={position} onPieceDrop={onDrop} />
+            <Chessboard position={moveLogic.fen()} onPieceDrop={onDrop} boardOrientation={orientation} customBoardStyle={{boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
+    borderRadius: "24px"}}/>
             {moveIndex >= movesArray.length && <p>You Win!</p>}
         </>
     )
