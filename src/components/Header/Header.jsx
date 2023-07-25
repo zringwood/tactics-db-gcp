@@ -8,7 +8,7 @@ function Header({ ranges }) {
         <header className='navbar'>
             <NavLink className="navbar__link" to={`/middlegames/${Math.ceil(Math.random() * (ranges.middlegames - 1))}`}><p className='navbar__text'>Middlegames</p></NavLink>
             <NavLink className="navbar__link" to={`/endgames/${Math.ceil(Math.random() * (ranges.endgames - 1))}`}><p className='navbar__text'>Endgames</p></NavLink>
-            {isShowingSettings && <SettingsPanel setIsShowingSettings={setIsShowingSettings}/>}
+            {isShowingSettings && <SettingsPanel setIsShowingSettings={setIsShowingSettings} animate={true}/>}
             <button className={`navbar__settings ${isShowingSettings && "navbar__settings--animate"}`} onClick={() => setIsShowingSettings(!isShowingSettings)}></button>
         </header>
     )

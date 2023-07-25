@@ -1,7 +1,7 @@
 import '../SettingsPanel/SettingsPanel.scss'
-import { Swipe, Position } from "react-swipe-component"
+import { Swipe } from "react-swipe-component"
 import {useState} from 'react'
-function SettingsPanel({ setIsShowingSettings }) {
+function SettingsPanel({ setIsShowingSettings, animate }) {
     const [position, setPosition] = useState(0)
     const onSwipeRightListener = () => {
         setIsShowingSettings(false)
@@ -15,12 +15,12 @@ function SettingsPanel({ setIsShowingSettings }) {
         <>
     <Swipe
             nodeName="div"
-            className="panel"
+            className="panel panel--animation"
             detectTouch={true}
-            delta = "50"
+            delta = "65"
             onSwipedRight={onSwipeRightListener}
             onSwipe={onSwipeListener}
-            style={{right: -position + "px"}}
+            // style={{right: (16-position) + "px"}}
             />
             </>
     )

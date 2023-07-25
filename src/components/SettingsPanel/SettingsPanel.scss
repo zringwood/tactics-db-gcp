@@ -8,10 +8,17 @@
     height: 60vh;
     position: fixed;
     top: 1rem;
-    // right: 1rem;
+    right: 1rem;
     z-index: 20;
 }
 .panel--animation{
-    transition: 1.5s;
-    transform: translateX(-65vw);
+    animation: slidein 1s linear 0s 1 normal none;
+}
+@keyframes slidein {
+    from{
+        transform: translateX(60vw);
+    }
+    to{
+        transform: translateX(0)
+    }
 }
