@@ -12,7 +12,7 @@
     z-index: 20;
 }
 .panel--animation{
-    animation: slidein 1s linear 0s 1 normal none;
+    animation: slidein 0.5s ease-out 0s 1 normal none;
 }
 @keyframes slidein {
     from{
