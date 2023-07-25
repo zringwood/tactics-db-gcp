@@ -2,28 +2,13 @@ import '../SettingsPanel/SettingsPanel.scss'
 import { Swipe, Position } from "react-swipe-component"
 import {useState} from 'react'
 function SettingsPanel({ setIsShowingSettings }) {
-
-    const onSwipeEnd = () => {
-        console.log("Swipe Ended")
-    }
+    const [position, setPosition] = useState(0)
     const onSwipeRightListener = () => {
         setIsShowingSettings(false)
     }
-    const onSwipeLeftListener = () => {
-        console.log("Swiped right")
-    }
-    const onSwipeUpListener = () => {
-        console.log("Swiped Up")
-    }
-    const onSwipeDownListener = () => {
-        console.log("Swiped down")
-    }
     const onSwipeListener = (p) => {
         if (p.x !== 0) {
-            console.log(`Swipe x: ${p.x}`)
-        }
-        if (p.y !== 0) {
-            console.log(`Swipe y: ${p.y}`)
+          setPosition(p.x)
         }
     }
     return (
@@ -32,13 +17,11 @@ function SettingsPanel({ setIsShowingSettings }) {
             nodeName="div"
             className="panel"
             detectTouch={true}
-            delta = "25"
-            onSwipeEnd={onSwipeEnd}
-            onSwipedLeft={onSwipeLeftListener}
+            delta = "50"
             onSwipedRight={onSwipeRightListener}
-            onSwipedDown={onSwipeDownListener}
-            onSwipedUp={onSwipeUpListener}
-            onSwipe={onSwipeListener}/>
+            onSwipe={onSwipeListener}
+            style={{right: -position + "px"}}
+            />
             </>
     )
 }
