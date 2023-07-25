@@ -12,8 +12,8 @@ function PuzzlePage({ category, categoryRange }) {
     const apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app${category}/${puzzleID}`
     useEffect(() => {
         axios.get(apiURL).then(response => {
-            setMovesObjectNotation(response.data.Moves);
-            setPositionFEN(response.data.FEN);
+            setMovesObjectNotation(response.data.moves);
+            setPositionFEN(response.data.fen);
         }).catch(response => {
             console.error(response);
         })
