@@ -22,3 +22,9 @@
         transform: translateX(0)
     }
 }
+.settingsform{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:$mobile-indent;
+}
