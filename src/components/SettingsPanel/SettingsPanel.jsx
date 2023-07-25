@@ -1,11 +1,44 @@
 import '../SettingsPanel/SettingsPanel.scss'
-
-function SettingsPanel({display}){
+import { Swipe, Position } from "react-swipe-component"
+function SettingsPanel({ display }) {
+    const onSwipeEnd = () => {
+        console.log("Swipe Ended")
+    }
+    const onSwipeLeftListener = () => {
+        console.log("Swiped left")
+    }
+    const onSwipeRightListener = () => {
+        console.log("Swiped right")
+    }
+    const onSwipeUpListener = () => {
+        console.log("Swiped Up")
+    }
+    const onSwipeDownListener = () => {
+        console.log("Swiped down")
+    }
+    const onSwipeListener = (p) => {
+        if (p.x !== 0) {
+            console.log(`Swipe x: ${p.x}`)
+        }
+        if (p.y !== 0) {
+            console.log(`Swipe y: ${p.y}`)
+        }
+    }
     return (
-        <div className={`panel ${display && 'panel--animation'}`}>
-
-        </div>
+        <Swipe
+            nodeName="div"
+            className="panel"
+            detectTouch={true}
+            onSwipeEnd={onSwipeEnd}
+            onSwipedLeft={onSwipeLeftListener}
+            onSwipedRight={onSwipeRightListener}
+            onSwipedDown={onSwipeDownListener}
+            onSwipedUp={onSwipeUpListener}
+            onSwipe={onSwipeListener}/>
     )
 }
+
+
+
 
 export default SettingsPanel
