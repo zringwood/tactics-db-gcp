@@ -1,13 +1,15 @@
 import '../SettingsPanel/SettingsPanel.scss'
 import { Swipe, Position } from "react-swipe-component"
-function SettingsPanel({ display }) {
+import {useState} from 'react'
+function SettingsPanel({ setIsShowingSettings }) {
+
     const onSwipeEnd = () => {
         console.log("Swipe Ended")
     }
-    const onSwipeLeftListener = () => {
-        console.log("Swiped left")
-    }
     const onSwipeRightListener = () => {
+        setIsShowingSettings(false)
+    }
+    const onSwipeLeftListener = () => {
         console.log("Swiped right")
     }
     const onSwipeUpListener = () => {
@@ -25,16 +27,19 @@ function SettingsPanel({ display }) {
         }
     }
     return (
-        <Swipe
+        <>
+    <Swipe
             nodeName="div"
             className="panel"
             detectTouch={true}
+            delta = "25"
             onSwipeEnd={onSwipeEnd}
             onSwipedLeft={onSwipeLeftListener}
             onSwipedRight={onSwipeRightListener}
             onSwipedDown={onSwipeDownListener}
             onSwipedUp={onSwipeUpListener}
             onSwipe={onSwipeListener}/>
+            </>
     )
 }
 
