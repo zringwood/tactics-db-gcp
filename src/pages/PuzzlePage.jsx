@@ -9,7 +9,7 @@ function PuzzlePage({ category, categoryRange }) {
     const [positionFEN, setPositionFEN] = useState("")
     const puzzleID = useParams().id
     const navigate = useNavigate();
-    const apiURL = `http://localhost:8080${category}/${puzzleID}`
+    const apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app${category}/${puzzleID}`
     useEffect(() => {
         axios.get(apiURL).then(response => {
             setMovesObjectNotation(response.data.Moves);
