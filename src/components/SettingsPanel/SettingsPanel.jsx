@@ -3,8 +3,6 @@ import { Swipe } from "react-swipe-component"
 import {useState} from 'react'
 function SettingsPanel({ setIsShowingSettings }) {
     const [position, setPosition] = useState(0)
-    const [difficulty, setDifficulty] = useState(1)
-    const [isSwipeEnabled, setIsSwipeEnabled] = useState(true)
 
     const onSwipeRightListener = () => {
         
@@ -21,15 +19,15 @@ function SettingsPanel({ setIsShowingSettings }) {
     <Swipe
             nodeName="div"
             className="panel panel--animation"
-            detectTouch={isSwipeEnabled}
+            detectTouch={true}
             detectMouse={false}
             delta = "60"
             onSwipedRight={onSwipeRightListener}
             onSwipe={onSwipeListener}
             style={{right: (16-position) + "px"}}
             >
-            <form className='settingsform' onMouseEnter={() => setIsSwipeEnabled(false)} 
-                onMouseLeave={() => setIsSwipeEnabled(true)}>
+                <button className='panel__exit' onClick={() => setIsShowingSettings(false)}/>
+            <form className='settingsform' >
                 <label htmlFor='easy' className='settingsform__label'>Easy</label>
                 <input type="radio" className='settingsform__difficulty--easy' id='easy' name="difficulty" value={700} />
                 <label htmlFor='medium' className='settingsform__label'>Medium</label>
@@ -42,6 +40,7 @@ function SettingsPanel({ setIsShowingSettings }) {
                 <input type="radio" className='settingsform__difficulty--engine' id='engine' name="difficulty" value={2300} />
                 <button type="submit" className='settingsform__submit'>New Puzzle</button>
             </form>
+            
             </Swipe>
     )
 }
