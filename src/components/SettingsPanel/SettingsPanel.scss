@@ -8,10 +8,35 @@
     height: 60vh;
     position: fixed;
     top: 1rem;
-    right: -65vw;
+    right: 1rem;
     z-index: 20;
+    padding: $mobile-indent;
+    &__exit{
+        background-image: url('../../assets/exit.svg');
+        background-position: center;
+        background-size: cover;
+        border:none;
+        background-color: rgba(#fff, 0);
+        outline: none;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 1rem;
+    }
 }
 .panel--animation{
-    transition: 1.5s;
-    transform: translateX(-65vw);
+    animation: slidein 0.5s ease-out 0s 1 normal none;
+}
+@keyframes slidein {
+    from{
+        transform: translateX(60vw);
+    }
+    to{
+        transform: translateX(0)
+    }
+}
+.settingsform{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

@@ -6,6 +6,8 @@ import { Chess } from "chess.js"
 let moveIndex = 0;
 function PuzzleBoard({ positionFEN, movesArray, orientation }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
+    //Logic to perform an animation when the wrong move is played
+    const [isWrongMove, setIsWrongMove] = useState(false)
     //This is needed to trigger a rerender in the chessboard component. 
     useEffect(() => {
         setMoveLogic(new Chess(positionFEN));
@@ -22,6 +24,11 @@ function PuzzleBoard({ positionFEN, movesArray, orientation }) {
                     updatePuzzle(movesArray[moveIndex])
                 }, halfSecond)
             }
+        } else {
+            setIsWrongMove(true)
+            setTimeout(() => {
+                setIsWrongMove(false)
+            }, 1000)
         }
     }
     const isCorrectMove = (move) => {
@@ -32,7 +39,6 @@ function PuzzleBoard({ positionFEN, movesArray, orientation }) {
     }
     const updatePuzzle = (move) => {
         moveLogic.move(move)
-        console.log("Reached")
         moveIndex += 1;
         setMoveLogic(new Chess(moveLogic.fen()))
     }
@@ -49,6 +55,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation }) {
             <Chessboard position={moveLogic.fen()} onPieceDrop={onDrop} boardOrientation={orientation} customBoardStyle={{boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
     borderRadius: "24px"}}/>
             {moveIndex >= movesArray.length && <p>You Win!</p>}
+           {isWrongMove && <p> Try Again!</p>}
         </>
     )
 }
