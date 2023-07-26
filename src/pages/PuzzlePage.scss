@@ -37,11 +37,15 @@ body{
 .navpanel{
     display:flex;
     flex-direction: row;
+    align-items: center;
     margin: $mobile-indent;
     @include tablet{
         margin: $tablet-indent;
     }
     @include desktop{
         margin: $tablet-indent $desktop-indent;
+    }
+    &__title{
+        margin-left: 1rem;
     }
 }

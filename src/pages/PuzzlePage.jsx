@@ -8,6 +8,7 @@ function PuzzlePage({ category, categoryRange }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
     const [positionFEN, setPositionFEN] = useState("")
     const [isHint, setIsHint] = useState(false)
+    const [title, setTitle] = useState("")
     const puzzleID = useParams().id
     const navigate = useNavigate();
     const apiURL = `http://localhost:8080${category}/${puzzleID}`
@@ -15,6 +16,8 @@ function PuzzlePage({ category, categoryRange }) {
         axios.get(apiURL).then(response => {
             setMovesObjectNotation(response.data.Moves);
             setPositionFEN(response.data.FEN);
+            let possibleTitles = response.data.Themes.split(" ")
+            setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
         }).catch(response => {
             console.error(response);
         })
@@ -24,6 +27,19 @@ function PuzzlePage({ category, categoryRange }) {
             Loading...
         </>
     }
+    //Helper method. Converts camelCase to Title Case. 
+    const titleCase = (camel) => {
+        let title = ""
+        title += camel[0].toUpperCase()
+        for(let i = 1;i<camel.length-1;i++){
+            title += camel[i]
+            if(camel[i+1].toUpperCase() === camel[i+1]){
+                title += " "
+            }
+        }
+        title += camel[camel.length-1]
+        return title
+    }
     return (
         <>
             <div className="board-container">
@@ -32,6 +48,7 @@ function PuzzlePage({ category, categoryRange }) {
             <div className="navpanel">
                 <button className="navbutton navbutton--backward"></button>
                 <button className={`navbutton navbutton--${isHint ? 'hintactive':'hint'}`} onClick={() => setIsHint(!isHint)}></button>
+                <p className="navpanel__title">{titleCase(title)}</p>
                 <button className="navbutton navbutton--forward" onClick={() => { navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}`) }}></button>
             </div>
         </>
