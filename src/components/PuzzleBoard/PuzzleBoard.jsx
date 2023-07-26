@@ -5,6 +5,7 @@ import { Chess } from "chess.js"
 
 function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
+    // const [position, setPosition] = useState(positionFEN)
     const moveIndex = useRef(0)
     //Logic to perform an animation when the wrong move is played
     const [isWrongMove, setIsWrongMove] = useState(false)
@@ -12,18 +13,19 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
     const [selectedSquare, setSelectedSquare] = useState(undefined)
     //Used for highlighting squares
     const [highlightSquares, setHighlightSquares] = useState({})
-
-    
+    //The initial change of position shouldn't be animated. After that it should be. 
+    const animationLength = useRef(0)
     let hintHightlight = {}
     if (showHint)
         hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
     const [highlightHint, setHightlightHint] = useState(hintHightlight)
     
-    //This is needed to trigger a rerender in the chessboard component. 
+    //The state variables don't actually change on reload without this.  
     useEffect(() => {
-        setMoveLogic(new Chess(positionFEN));
+        animationLength.current = 0
+        setMoveLogic(new Chess(positionFEN))
         //moveIndex must be reset when the puzzle resets.
-        moveIndex.current = 0;
+         moveIndex.current = 0;
     }, [positionFEN])
 
     useEffect(() => {
@@ -83,10 +85,10 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         return moveIndex.current >= movesArray.length
     }
     const updatePuzzle = (move) => {
-        moveLogic.move(move)
+        // moveLogic.move(move)
         moveIndex.current += 1;
         setShowHint(false)
-        setMoveLogic(new Chess(moveLogic.fen()))
+        // setMoveLogic(new Chess(moveLogic.fen()))
     }
     
     //Plays the first move. 
@@ -94,6 +96,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         moveIndex.current += 1;
         setTimeout(() => {
             moveLogic.move(movesArray[0])
+            animationLength.current = 300
             setMoveLogic(new Chess(moveLogic.fen()))
         }, 500)
     }
@@ -101,11 +104,11 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         <>
             <Chessboard
                 arePiecesDraggable={true} 
-                
+                animationDuration={animationLength.current}
                 position={moveLogic.fen()}
                 onPieceDrop={onDrop}
                 onSquareClick={onClick}
-                boardOrientation={orientation}
+                // boardOrientation={orientation}
                 customBoardStyle={
                     {
                         boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
