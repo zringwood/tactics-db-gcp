@@ -3,6 +3,7 @@ import "../pages/PuzzlePage.scss"
 import axios from "axios";
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router"
+import { useSearchParams } from "react-router-dom";
 
 function PuzzlePage({ category, categoryRange }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
@@ -11,6 +12,8 @@ function PuzzlePage({ category, categoryRange }) {
     const [title, setTitle] = useState("")
     const puzzleID = useParams().id
     const navigate = useNavigate();
+    //Settings are passed through URL queries
+    const [settings,] = useSearchParams()
     const apiURL = `http://localhost:8080${category}/${puzzleID}`
     useEffect(() => {
         axios.get(apiURL).then(response => {
@@ -48,7 +51,7 @@ function PuzzlePage({ category, categoryRange }) {
             <div className="navpanel">
                 <button className="navbutton navbutton--backward"></button>
                 <button className={`navbutton navbutton--${isHint ? 'hintactive':'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                <p className="navpanel__title">{titleCase(title)}</p>
+                {settings.get("title") === 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
                 <button className="navbutton navbutton--forward" onClick={() => { navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}`) }}></button>
             </div>
         </>

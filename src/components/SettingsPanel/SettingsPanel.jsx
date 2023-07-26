@@ -3,7 +3,7 @@ import { Swipe } from "react-swipe-component"
 import {useState} from 'react'
 function SettingsPanel({ setIsShowingSettings }) {
     const [position, setPosition] = useState(0)
-
+    const [checkedRadio, setCheckedRadio] = useState("Easy")
     const onSwipeRightListener = () => {
         
         setIsShowingSettings(false)
@@ -28,16 +28,16 @@ function SettingsPanel({ setIsShowingSettings }) {
             >
                 <button className='panel__exit' onClick={() => setIsShowingSettings(false)}/>
             <form className='settingsform' >
-                <label htmlFor='easy' className='settingsform__label'>Easy</label>
-                <input type="radio" className='settingsform__difficulty--easy' id='easy' name="difficulty" value={700} />
-                <label htmlFor='medium' className='settingsform__label'>Medium</label>
-                <input type="radio" className='settingsform__difficulty--medium' id='medium' name="difficulty" value={1100} />
-                <label htmlFor='hard' className='settingsform__label'>Hard</label>
-                <input type="radio" className='settingsform__difficulty--hard' id='hard' name="difficulty" value={1500} />
-                <label htmlFor='grandmaster' className='settingsform__label'>Grandmaster</label>
-                <input type="radio" className='settingsform__difficulty--grandmaster' id='grandmaster' name="difficulty" value={1900} />
-                <label htmlFor='engine' className='settingsform__label'>Engine</label>
-                <input type="radio" className='settingsform__difficulty--engine' id='engine' name="difficulty" value={2300} />
+                <p className='settingsform__label'>{checkedRadio}</p>
+                <div className='radiobuttons'>
+                <input type="radio" className='settingsform__difficulty--easy' id='Easy' name="difficulty" value={700} defaultChecked onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                <input type="radio" className='settingsform__difficulty--medium' id='Medium' name="difficulty" value={1100} onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                <input type="radio" className='settingsform__difficulty--hard' id='Hard' name="difficulty" value={1500} onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                <input type="radio" className='settingsform__difficulty--grandmaster' id='Grandmaster' name="difficulty" value={1900} onChange={(evt) => setCheckedRadio(evt.target.id)} />
+                <input type="radio" className='settingsform__difficulty--engine' id='Engine' name="difficulty" value={2300} onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                </div>
+                <label htmlFor='showTitles'>Display Titles?</label>
+                <input type="checkbox" className='settingsform__titles' id="showTitles" name="title" defaultChecked />
                 <button type="submit" className='settingsform__submit'>New Puzzle</button>
             </form>
             

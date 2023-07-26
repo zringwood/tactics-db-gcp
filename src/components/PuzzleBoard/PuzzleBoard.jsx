@@ -12,6 +12,8 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
     const [selectedSquare, setSelectedSquare] = useState(undefined)
     //Used for highlighting squares
     const [highlightSquares, setHighlightSquares] = useState({})
+
+    
     let hintHightlight = {}
     if (showHint)
         hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
