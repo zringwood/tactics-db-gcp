@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
 
-//This doesn't work with state because setState is asynchronous.  
-let moveIndex = 0;
+
 function PuzzleBoard({ positionFEN, movesArray, orientation }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
     //Logic to perform an animation when the wrong move is played
     const [isWrongMove, setIsWrongMove] = useState(false)
+    const moveIndex = useRef(0)
     //This is needed to trigger a rerender in the chessboard component. 
     useEffect(() => {
         setMoveLogic(new Chess(positionFEN));
         //moveIndex must be reset when the puzzle resets.
-        moveIndex = 0;
+        moveIndex.current = 0;
     }, [positionFEN])
     const onDrop = (sourceSquare, targetSquare) => {
         let move = `${sourceSquare}${targetSquare}`
@@ -21,7 +21,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation }) {
             if (!isEndofPuzzle()) {
                 const halfSecond = 500
                 setTimeout(() => {
-                    updatePuzzle(movesArray[moveIndex])
+                    updatePuzzle(movesArray[moveIndex.current])
                 }, halfSecond)
             }
         } else {
@@ -32,19 +32,19 @@ function PuzzleBoard({ positionFEN, movesArray, orientation }) {
         }
     }
     const isCorrectMove = (move) => {
-        return move === movesArray[moveIndex]
+        return move === movesArray[moveIndex.current]
     }
     const isEndofPuzzle = () => {
-        return moveIndex >= movesArray.length
+        return moveIndex.current >= movesArray.length
     }
     const updatePuzzle = (move) => {
         moveLogic.move(move)
-        moveIndex += 1;
+        moveIndex.current += 1;
         setMoveLogic(new Chess(moveLogic.fen()))
     }
     //Plays the first move. 
-    if (moveIndex === 0) {
-        moveIndex += 1;
+    if (moveIndex.current === 0) {
+        moveIndex.current += 1;
         setTimeout(() => {
             moveLogic.move(movesArray[0])
             setMoveLogic(new Chess(moveLogic.fen()))
@@ -54,7 +54,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation }) {
         <>
             <Chessboard position={moveLogic.fen()} onPieceDrop={onDrop} boardOrientation={orientation} customBoardStyle={{boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
     borderRadius: "24px"}}/>
-            {moveIndex >= movesArray.length && <p>You Win!</p>}
+            {moveIndex.current >= movesArray.length && <p>You Win!</p>}
            {isWrongMove && <p> Try Again!</p>}
         </>
     )
