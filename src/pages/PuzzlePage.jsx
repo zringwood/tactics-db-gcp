@@ -14,8 +14,6 @@ function PuzzlePage({ category, categoryRange }) {
     const navigate = useNavigate();
     //Settings are passed through URL queries
     const [settings,] = useSearchParams()
-   
-   
     useEffect(() => {
         const apiURL = !!settings.get("difficulty") ? `http://localhost:8080${category}/difficulty/${settings.get('difficulty')}` : `http://localhost:8080${category}/${puzzleID}`
         axios.get(apiURL).then(response => {
@@ -54,7 +52,7 @@ function PuzzlePage({ category, categoryRange }) {
             <div className="navpanel">
                 <button className="navbutton navbutton--backward"></button>
                 <button className={`navbutton navbutton--${isHint ? 'hintactive':'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                {settings.get("title") === 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
+                {settings.get("title") !== 'off' && <p className="navpanel__title">{titleCase(title)}</p>}
                 <button className="navbutton navbutton--forward" onClick={() => { navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}?${settings.toString()}`) }}></button>
             </div>
         </>

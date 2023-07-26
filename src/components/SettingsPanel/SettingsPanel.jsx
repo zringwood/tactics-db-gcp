@@ -36,8 +36,8 @@ function SettingsPanel({ setIsShowingSettings }) {
                 <input type="radio" className='settingsform__difficulty--grandmaster' id='Grandmaster' name="difficulty" value={1900} onChange={(evt) => setCheckedRadio(evt.target.id)} />
                 <input type="radio" className='settingsform__difficulty--engine' id='Engine' name="difficulty" value={2300} onChange={(evt) => setCheckedRadio(evt.target.id)}/>
                 </div>
-                <label htmlFor='showTitles'>Display Titles?</label>
-                <input type="checkbox" className='settingsform__titles' id="showTitles" name="title" defaultChecked />
+                <label htmlFor='hideTitles'>Display Titles?</label>
+                <input type="checkbox" className='settingsform__titles' id="hideTitles" name="title" />
                 <button type="submit" className='settingsform__submit'>New Puzzle</button>
             </form>
             
