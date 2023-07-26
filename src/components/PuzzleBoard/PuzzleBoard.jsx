@@ -3,17 +3,20 @@ import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
 
 
-function PuzzleBoard({ positionFEN, movesArray, orientation, showHint }) {
+function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
+    const moveIndex = useRef(0)
     //Logic to perform an animation when the wrong move is played
     const [isWrongMove, setIsWrongMove] = useState(false)
     //Used for click functionality
     const [selectedSquare, setSelectedSquare] = useState(undefined)
     //Used for highlighting squares
     const [highlightSquares, setHighlightSquares] = useState({})
-    const [isHint, setIsHint] = useState(showHint)
-    const moveIndex = useRef(0)
-    console.log(movesArray)
+    let hintHightlight = {}
+    if (showHint)
+        hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
+    const [highlightHint, setHightlightHint] = useState(hintHightlight)
+    
     //This is needed to trigger a rerender in the chessboard component. 
     useEffect(() => {
         setMoveLogic(new Chess(positionFEN));
@@ -21,8 +24,14 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint }) {
         moveIndex.current = 0;
     }, [positionFEN])
 
-    const onSquareClick = (square) => {
-        console.log(moveIndex.current, `${selectedSquare}${square}`)
+    useEffect(() => {
+        let hintHightlight = {}
+        if (showHint)
+            hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
+        setHightlightHint(hintHightlight)
+    }, [showHint, movesArray])
+
+    const onClick = (square) => {
         if (!selectedSquare) {
             setSelectedSquare(square)
             const newSquares = {}
@@ -46,8 +55,6 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint }) {
 
 
     }
-
-
     const onDrop = (sourceSquare, targetSquare) => {
         let move = `${sourceSquare}${targetSquare}`
         if (isCorrectMove(move)) {
@@ -58,11 +65,13 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint }) {
                     updatePuzzle(movesArray[moveIndex.current])
                 }, halfSecond)
             }
+            return true;
         } else {
             setIsWrongMove(true)
             setTimeout(() => {
                 setIsWrongMove(false)
             }, 1000)
+            return false;
         }
     }
     const isCorrectMove = (move) => {
@@ -74,8 +83,10 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint }) {
     const updatePuzzle = (move) => {
         moveLogic.move(move)
         moveIndex.current += 1;
+        setShowHint(false)
         setMoveLogic(new Chess(moveLogic.fen()))
     }
+    
     //Plays the first move. 
     if (moveIndex.current === 0) {
         moveIndex.current += 1;
@@ -86,9 +97,12 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint }) {
     }
     return (
         <>
-            <Chessboard position={moveLogic.fen()}
+            <Chessboard
+                arePiecesDraggable={true} 
+                
+                position={moveLogic.fen()}
                 onPieceDrop={onDrop}
-                onSquareClick={onSquareClick}
+                onSquareClick={onClick}
                 boardOrientation={orientation}
                 customBoardStyle={
                     {
@@ -97,8 +111,10 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint }) {
                     }
                 }
                 customSquareStyles={{
-                    ...highlightSquares
-                }} />
+                    ...highlightSquares,
+                    ...highlightHint
+                }} 
+                />
             {moveIndex.current >= movesArray.length && <p>You Win!</p>}
             {isWrongMove && <p> Try Again!</p>}
         </>

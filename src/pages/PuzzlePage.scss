@@ -29,9 +29,9 @@ body{
     }
     &--hint{
         background-image: url('../assets/hint.svg');
-        &:active{
-            background-image: url('../assets/hint_active.svg');
-        }
+    }
+    &--hintactive{
+        background-image: url('../assets/hint_active.svg');
     }
 }
 .navpanel{

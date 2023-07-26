@@ -27,11 +27,11 @@ function PuzzlePage({ category, categoryRange }) {
     return (
         <>
             <div className="board-container">
-                <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} />
+                <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />
             </div>
             <div className="navpanel">
                 <button className="navbutton navbutton--backward"></button>
-                <button className="navbutton navbutton--hint" onClick={() => setIsHint(true)}></button>
+                <button className={`navbutton navbutton--${isHint ? 'hintactive':'hint'}`} onClick={() => setIsHint(!isHint)}></button>
                 <button className="navbutton navbutton--forward" onClick={() => { navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}`) }}></button>
             </div>
         </>
