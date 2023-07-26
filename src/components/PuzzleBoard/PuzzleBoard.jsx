@@ -3,7 +3,7 @@ import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
 
 
-function PuzzleBoard({ positionFEN, movesArray, orientation }) {
+function PuzzleBoard({ positionFEN, movesArray, orientation, showHint }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
     //Logic to perform an animation when the wrong move is played
     const [isWrongMove, setIsWrongMove] = useState(false)
@@ -11,6 +11,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation }) {
     const [selectedSquare, setSelectedSquare] = useState(undefined)
     //Used for highlighting squares
     const [highlightSquares, setHighlightSquares] = useState({})
+    const [isHint, setIsHint] = useState(showHint)
     const moveIndex = useRef(0)
     console.log(movesArray)
     //This is needed to trigger a rerender in the chessboard component. 

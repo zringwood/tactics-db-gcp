@@ -16,22 +16,22 @@ body{
     background-color: rgba(#000000,  0);
     border:none;
     outline:none;
-    
-    &--forward{
-        background-image: url('../assets/chevron-right.svg');
-        width: 2rem;
+    width: 2rem;
         height:2rem;
         background-repeat: no-repeat;
         background-size: cover;
-        
+    &--forward{
+        background-image: url('../assets/chevron-right.svg');
+        margin-left:auto;
     }
     &--backward{
         background-image: url('../assets/chevron-left.svg');
-        width: 2rem;
-        height:2rem;
-        background-repeat: no-repeat;
-        background-size: cover;
-        margin-right:auto;
+    }
+    &--hint{
+        background-image: url('../assets/hint.svg');
+        &:active{
+            background-image: url('../assets/hint_active.svg');
+        }
     }
 }
 .navpanel{
