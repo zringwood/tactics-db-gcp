@@ -17,7 +17,6 @@ function PuzzlePage({ category, categoryRange }) {
     useEffect(() => {
         const apiURL = !!settings.get("difficulty") ? `http://localhost:8080${category}/difficulty/${settings.get('difficulty')}` : `http://localhost:8080${category}/${puzzleID}`
         axios.get(apiURL).then(response => {
-            console.log(response.data)
             setMovesObjectNotation(response.data.Moves);
             setPositionFEN(response.data.FEN);
             let possibleTitles = response.data.Themes.split(" ")

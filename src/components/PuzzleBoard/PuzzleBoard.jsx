@@ -85,10 +85,10 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         return moveIndex.current >= movesArray.length
     }
     const updatePuzzle = (move) => {
-        // moveLogic.move(move)
+        moveLogic.move(move)
         moveIndex.current += 1;
         setShowHint(false)
-        // setMoveLogic(new Chess(moveLogic.fen()))
+        setMoveLogic(new Chess(moveLogic.fen()))
     }
     
     //Plays the first move. 
@@ -108,7 +108,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 position={moveLogic.fen()}
                 onPieceDrop={onDrop}
                 onSquareClick={onClick}
-                // boardOrientation={orientation}
+                boardOrientation={orientation}
                 customBoardStyle={
                     {
                         boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
