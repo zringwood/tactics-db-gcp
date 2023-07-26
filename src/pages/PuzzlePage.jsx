@@ -52,7 +52,7 @@ function PuzzlePage({ category, categoryRange }) {
                 <button className="navbutton navbutton--backward"></button>
                 <button className={`navbutton navbutton--${isHint ? 'hintactive':'hint'}`} onClick={() => setIsHint(!isHint)}></button>
                 {settings.get("title") === 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
-                <button className="navbutton navbutton--forward" onClick={() => { navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}`) }}></button>
+                <button className="navbutton navbutton--forward" onClick={() => { navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}?${settings.toString()}`) }}></button>
             </div>
         </>
     )
