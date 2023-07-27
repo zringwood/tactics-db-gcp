@@ -21,8 +21,9 @@ function PuzzlePage({ category, ranges }) {
     const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}` 
     useEffect(() => {
             axios.get(`${apiURL}`).then(response => {
+                console.log(response)
                 setMovesObjectNotation(response.data.Moves);
-                setPositionFEN(response.data.Fen);
+                setPositionFEN(response.data.FEN);
                 let possibleTitles = response.data.Themes.split(" ")
                 setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
             }).catch(response => {
@@ -30,6 +31,7 @@ function PuzzlePage({ category, ranges }) {
             })
         
     }, [apiURL])
+    console.log(positionFEN, movesObjectNotation)
     if (!positionFEN || !movesObjectNotation) {
         return <>
             Loading...
