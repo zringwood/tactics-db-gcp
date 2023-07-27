@@ -22,21 +22,11 @@ function App() {
       <Routes>
       <Route path = "/" element ={<Navigate to={`/middlegames/easy/${Math.ceil(Math.random() * ranges.middlegames_easy)}`}/>}/>
       <Route path = "/middlegames/">
-        <Route path = "easy" element={<Navigate to={`/middlegames/easy/${Math.ceil(Math.random() * ranges.middlegames_easy)}`}/>}/>
-        <Route path = "medium" element={<Navigate to={`/middlegames/medium/${Math.ceil(Math.random() * ranges.middlegames_medium)}`}/>}/>
-        <Route path = "hard" element={<Navigate to={`/middlegames/hard/${Math.ceil(Math.random() * ranges.middlegames_hard)}`}/>}/>
-        <Route path = "grandmaster" element={<Navigate to={`/middlegames/grandmaster/${Math.ceil(Math.random() * ranges.middlegames_grandmaster)}`}/>}/>
-        <Route path = "engine" element={<Navigate to={`/middlegames/engine/${Math.ceil(Math.random() * ranges.middlegames_engine)}`}/>}/>
+        <Route path=":difficulty/:id" element={<PuzzlePage category={"middlegames"} ranges={ranges} />}/>
       </Route>
       <Route path = "/endgames/" >
-        <Route path = "easy" element={<Navigate to={`/endgames/easy/${Math.ceil(Math.random() * ranges.endgames_easy)}`}/>}/>
-        <Route path = "medium" element={<Navigate to={`/endgames/medium/${Math.ceil(Math.random() * ranges.endgames_medium)}`}/>}/>
-        <Route path = "hard" element={<Navigate to={`/endgames/hard/${Math.ceil(Math.random() * ranges.endgames_hard)}`}/>}/>
-        <Route path = "grandmaster" element={<Navigate to={`/endgames/grandmaster/${Math.ceil(Math.random() * ranges.endgames_grandmaster)}`}/>}/>
-        <Route path = "engine" element={<Navigate to={`/endgames/engine/${Math.ceil(Math.random() * ranges.endgames_engine)}`}/>}/>
+        <Route path=":difficulty/:id" element={<PuzzlePage category={"endgames"} ranges={ranges}/>}/>
       </Route>
-        <Route path="/middlegames/:difficulty/:id" element={<PuzzlePage category={"middlegames"} />}/>
-        <Route path="/endgames/:difficulty/:id" element={<PuzzlePage category={"endgames"} />}/>
       </Routes>
       </BrowserRouter>
     </>

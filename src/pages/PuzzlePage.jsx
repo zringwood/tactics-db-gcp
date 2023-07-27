@@ -61,7 +61,7 @@ function PuzzlePage({ category, ranges }) {
                 {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
 
                 <button className="navbutton navbutton--forward" onClick={() => { 
-                    navigate(`/${category}/${difficulty}`)}}></button>
+                    navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)}}></button>
             </div>
         </>
     )
