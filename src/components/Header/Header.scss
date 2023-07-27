@@ -7,7 +7,7 @@
     align-items: center;
     list-style-type: none;
     margin: 0;
-    height:4rem;
+    height:2rem;
     padding: 0 $mobile-indent;
     @include tablet{
         padding: 0 $tablet-indent;
@@ -23,8 +23,8 @@
     }
     &__settings{
         background-image: url('../../assets/settings.svg');
-        width: 2rem;
-        height:2rem;
+        width: 1rem;
+        height:1rem;
         background-repeat: no-repeat;
         background-size: cover;
         border:none;
