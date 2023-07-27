@@ -19,7 +19,7 @@ function PuzzlePage({ category, ranges }) {
     //If there are no settings, we use default settings. 
     settings.set("hidetitle", settings.get('hidetitle') || "off")
     
-    const apiURL = `https://tactics-db-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}` 
+    const apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}` 
     useEffect(() => {
             axios.get(`${apiURL}`).then(response => {
                 console.log(response)
