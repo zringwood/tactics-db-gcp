@@ -34,15 +34,17 @@ function PuzzlePage({ category, categoryRange }) {
     const titleCase = (camel) => {
         let title = ""
         title += camel[0].toUpperCase()
-        for(let i = 1;i<camel.length-1;i++){
+        for (let i = 1; i < camel.length - 1; i++) {
             title += camel[i]
-            if(camel[i+1].toUpperCase() === camel[i+1]){
+            if (camel[i + 1].toUpperCase() === camel[i + 1]) {
                 title += " "
             }
         }
-        title += camel[camel.length-1]
+        title += camel[camel.length - 1]
         return title
     }
+
+    
     return (
         <>
             <div className="board-container">
@@ -50,10 +52,11 @@ function PuzzlePage({ category, categoryRange }) {
             </div>
             <div className="navpanel">
                 <button className="navbutton navbutton--backward"></button>
-                <button className={`navbutton navbutton--${isHint ? 'hintactive':'hint'}`} onClick={() => setIsHint(!isHint)}></button>
+                <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
                 {settings.get("title") !== 'off' && <p className="navpanel__title">{titleCase(title)}</p>}
-                
-                <button className="navbutton navbutton--forward" onClick={() => { navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}?${settings.toString()}`) }}></button>
+
+                <button className="navbutton navbutton--forward" onClick={() => { 
+                    setInterval(navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}?${settings.toString()}`), 500) }}></button>
             </div>
         </>
     )
