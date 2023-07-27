@@ -10,21 +10,31 @@ function PuzzlePage({ category, categoryRange }) {
     const [positionFEN, setPositionFEN] = useState("")
     const [isHint, setIsHint] = useState(false)
     const [title, setTitle] = useState("")
+
     const puzzleID = useParams().id
     const navigate = useNavigate();
     //Settings are passed through URL queries
     const [settings,] = useSearchParams()
+    //If there are no settings, we use default settings. 
+    settings.set("difficulty", settings.get('difficulty') || "easy")
+    settings.set("hidetitle", settings.get('hidetitle') || "on")
+    
+    const apiURL = `http://localhost:8080${category}/${settings.get('difficulty')}` 
     useEffect(() => {
-        const apiURL = !!settings.get("difficulty") ? `http://localhost:8080${category}/difficulty/${settings.get('difficulty')}` : `http://localhost:8080${category}/${puzzleID}`
-        axios.get(apiURL).then(response => {
-            setMovesObjectNotation(response.data.Moves);
-            setPositionFEN(response.data.FEN);
-            let possibleTitles = response.data.Themes.split(" ")
-            setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
+        axios.get(`${apiURL}/count`).then(countData => {
+            const randomID = Math.floor(Math.random() * countData.data["count(*)"])
+            axios.get(`${apiURL}/${randomID}`).then(response => {
+                setMovesObjectNotation(response.data.Moves);
+                setPositionFEN(response.data.FEN);
+                let possibleTitles = response.data.Themes.split(" ")
+                setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
+            }).catch(response => {
+                console.error(response);
+            })
         }).catch(response => {
-            console.error(response);
+            console.error("count", response)
         })
-    }, [category, puzzleID, settings])
+    }, [apiURL])
     if (!positionFEN || !movesObjectNotation) {
         return <>
             Loading...
@@ -53,7 +63,7 @@ function PuzzlePage({ category, categoryRange }) {
             <div className="navpanel">
                 <button className="navbutton navbutton--backward"></button>
                 <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                {settings.get("title") !== 'off' && <p className="navpanel__title">{titleCase(title)}</p>}
+                {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
 
                 <button className="navbutton navbutton--forward" onClick={() => { 
                     setInterval(navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}?${settings.toString()}`), 500) }}></button>

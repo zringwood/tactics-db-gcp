@@ -30,14 +30,14 @@ function SettingsPanel({ setIsShowingSettings }) {
             <form className='settingsform' >
                 <p className='settingsform__label'>{checkedRadio}</p>
                 <div className='radiobuttons'>
-                <input type="radio" className='settingsform__difficulty--easy' id='Easy' name="difficulty" value={700} defaultChecked onChange={(evt) => setCheckedRadio(evt.target.id)}/>
-                <input type="radio" className='settingsform__difficulty--medium' id='Medium' name="difficulty" value={1100} onChange={(evt) => setCheckedRadio(evt.target.id)}/>
-                <input type="radio" className='settingsform__difficulty--hard' id='Hard' name="difficulty" value={1500} onChange={(evt) => setCheckedRadio(evt.target.id)}/>
-                <input type="radio" className='settingsform__difficulty--grandmaster' id='Grandmaster' name="difficulty" value={1900} onChange={(evt) => setCheckedRadio(evt.target.id)} />
-                <input type="radio" className='settingsform__difficulty--engine' id='Engine' name="difficulty" value={2300} onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                <input type="radio" className='settingsform__difficulty--easy' id='Easy' name="difficulty" value="easy" defaultChecked onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                <input type="radio" className='settingsform__difficulty--medium' id='Medium' name="difficulty" value="medium" onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                <input type="radio" className='settingsform__difficulty--hard' id='Hard' name="difficulty" value="hard" onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                <input type="radio" className='settingsform__difficulty--grandmaster' id='Grandmaster' name="difficulty" value="grandmaster" onChange={(evt) => setCheckedRadio(evt.target.id)} />
+                <input type="radio" className='settingsform__difficulty--engine' id='Engine' name="difficulty" value="engine" onChange={(evt) => setCheckedRadio(evt.target.id)}/>
                 </div>
                 <label htmlFor='hideTitles'>Hide Titles?</label>
-                <input type="checkbox" className='settingsform__titles' id="hideTitles" name="title" />
+                <input type="checkbox" className='settingsform__titles' id="hideTitles" name="hideTitle" />
                 <button type="submit" className='settingsform__submit'>New Puzzle</button>
             </form>
             
