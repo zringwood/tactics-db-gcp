@@ -4,8 +4,8 @@
     background-color: $square-dark;
     border-radius: 2rem;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5 );
-    width: 60vw;
-    height: 60vh;
+    width: 65vw;
+    height: 70vh;
     position: fixed;
     top: 1rem;
     right: 1rem;
@@ -39,6 +39,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height:90%;
+    margin-top: 10%;
+    row-gap: 1rem;
+    &__submit{
+        background-color: $square-light;
+        outline:none;
+        border:none;
+        padding: 0.5rem;
+        border-radius: 12px;
+        margin-top: auto;
+    }
+    &__label{
+        margin:0 0 ;
+        &--radio{
+            width: 30%;
+        }
+    }
+}
+.flex-container{
+    display:flex;
+    justify-content: space-between;
+    width: 100%;
 }
 .radiobuttons{
     display: flex;

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router"
 import { useSearchParams } from "react-router-dom";
+import GlobalSpinner from "../components/GlobalSpinner/GlobalSpinner";
 
 function PuzzlePage({ category, ranges }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
@@ -18,9 +19,10 @@ function PuzzlePage({ category, ranges }) {
     //If there are no settings, we use default settings. 
     settings.set("hidetitle", settings.get('hidetitle') || "off")
     
-    const apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}` 
+    const apiURL = `https://tactics-db-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}` 
     useEffect(() => {
             axios.get(`${apiURL}`).then(response => {
+                console.log(response)
                 setMovesObjectNotation(response.data.moves);
                 setPositionFEN(response.data.fen);
                 let possibleTitles = response.data.themes.split(" ")
@@ -31,9 +33,7 @@ function PuzzlePage({ category, ranges }) {
         
     }, [apiURL])
     if (!positionFEN || !movesObjectNotation) {
-        return <>
-            Loading...
-        </>
+        return <GlobalSpinner />
     }
     //Helper method. Converts camelCase to Title Case. 
     const titleCase = (camel) => {

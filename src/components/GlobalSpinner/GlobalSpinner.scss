@@ -1,0 +1,28 @@
+@use "../../styles/partials" as *;
+*{
+    box-sizing: border-box;
+}
+.spinner{
+    border-radius: 50%; 
+  border: 10px solid transparent; 
+  background: linear-gradient(45deg,$square-dark, $square-light) border-box; 
+  mask: 
+     linear-gradient(#fff 0 0) padding-box, 
+     linear-gradient(#fff 0 0);
+     -webkit-mask-composite: xor;
+     mask-composite: exclude;
+    width: 100%;
+    height:0;
+    padding-top: 94%;
+    animation-name: spin;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+@keyframes spin {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg)
+    }
+}
