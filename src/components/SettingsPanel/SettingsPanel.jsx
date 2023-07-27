@@ -2,7 +2,7 @@ import '../SettingsPanel/SettingsPanel.scss'
 import { Swipe } from "react-swipe-component"
 import {useState} from 'react'
 import { useNavigate } from 'react-router'
-function SettingsPanel({ setIsShowingSettings }) {
+function SettingsPanel({ setIsShowingSettings, ranges }) {
     const [position, setPosition] = useState(0)
     const [checkedRadio, setCheckedRadio] = useState("Easy")
   
@@ -22,7 +22,7 @@ function SettingsPanel({ setIsShowingSettings }) {
         const difficulty = evt.target.difficulty.value;
         setIsShowingSettings(false)
         const currentPath = window.location.pathname.split('/')[1];
-        navigate(`${currentPath}/${difficulty}/`)
+        navigate(`${currentPath}/${difficulty}/${Math.ceil(Math.random()*ranges[`${currentPath.slice(1)}_${difficulty}`])}`)
     }
     
     return (
