@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom'
 import "../Header/Header.scss"
 import { useState } from 'react'
 import SettingsPanel from '../SettingsPanel/SettingsPanel'
