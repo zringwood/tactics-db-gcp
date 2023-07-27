@@ -12,15 +12,13 @@ function PuzzlePage({ category, ranges }) {
     const [title, setTitle] = useState("")
     const puzzleID = useParams().id
     const difficulty = useParams().difficulty
-    console.log(`${category}_${difficulty}`, ranges[`${category}_${difficulty}`])
     const navigate = useNavigate();
     //Settings are passed through URL queries
     const [settings,] = useSearchParams()
     //If there are no settings, we use default settings. 
-    settings.set("difficulty", settings.get('difficulty') || "easy")
-    settings.set("hidetitle", settings.get('hidetitle') || "on")
+    settings.set("hidetitle", settings.get('hidetitle') || "off")
     
-    const apiURL = `http://localhost:8080/${category}/${settings.get('difficulty')}/${puzzleID}` 
+    const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}` 
     useEffect(() => {
             axios.get(`${apiURL}`).then(response => {
                 setMovesObjectNotation(response.data.Moves);
@@ -63,7 +61,7 @@ function PuzzlePage({ category, ranges }) {
                 {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
 
                 <button className="navbutton navbutton--forward" onClick={() => { 
-                    navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`) }}></button>
+                    navigate(`/${category}/${difficulty}`)}}></button>
             </div>
         </>
     )

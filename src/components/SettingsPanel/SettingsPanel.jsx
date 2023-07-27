@@ -1,9 +1,12 @@
 import '../SettingsPanel/SettingsPanel.scss'
 import { Swipe } from "react-swipe-component"
 import {useState} from 'react'
+import { useNavigate } from 'react-router'
 function SettingsPanel({ setIsShowingSettings }) {
     const [position, setPosition] = useState(0)
     const [checkedRadio, setCheckedRadio] = useState("Easy")
+  
+    const navigate = useNavigate()
     const onSwipeRightListener = () => {
         
         setIsShowingSettings(false)
@@ -14,6 +17,14 @@ function SettingsPanel({ setIsShowingSettings }) {
           setPosition(p.x)
         }
     }
+    const onSubmit = (evt) => {
+        evt.preventDefault()
+        const difficulty = evt.target.difficulty.value;
+        setIsShowingSettings(false)
+        const currentPath = window.location.pathname.split('/')[1];
+        navigate(`${currentPath}/${difficulty}/`)
+    }
+    
     return (
         
     <Swipe
@@ -27,7 +38,7 @@ function SettingsPanel({ setIsShowingSettings }) {
             style={{right: (16-position) + "px"}}
             >
                 <button className='panel__exit' onClick={() => setIsShowingSettings(false)}/>
-            <form className='settingsform' >
+            <form className='settingsform' onSubmit={onSubmit}>
                 <p className='settingsform__label'>{checkedRadio}</p>
                 <div className='radiobuttons'>
                 <input type="radio" className='settingsform__difficulty--easy' id='Easy' name="difficulty" value="easy" defaultChecked onChange={(evt) => setCheckedRadio(evt.target.id)}/>
@@ -38,7 +49,9 @@ function SettingsPanel({ setIsShowingSettings }) {
                 </div>
                 <label htmlFor='hideTitles'>Hide Titles?</label>
                 <input type="checkbox" className='settingsform__titles' id="hideTitles" name="hideTitle" />
+                
                 <button type="submit" className='settingsform__submit'>New Puzzle</button>
+               
             </form>
             
             </Swipe>
