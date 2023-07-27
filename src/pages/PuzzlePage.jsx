@@ -5,13 +5,14 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router"
 import { useSearchParams } from "react-router-dom";
 
-function PuzzlePage({ category, categoryRange }) {
+function PuzzlePage({ category, ranges }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
     const [positionFEN, setPositionFEN] = useState("")
     const [isHint, setIsHint] = useState(false)
     const [title, setTitle] = useState("")
-
     const puzzleID = useParams().id
+    const difficulty = useParams().difficulty
+    console.log(`${category}_${difficulty}`, ranges[`${category}_${difficulty}`])
     const navigate = useNavigate();
     //Settings are passed through URL queries
     const [settings,] = useSearchParams()
@@ -19,11 +20,9 @@ function PuzzlePage({ category, categoryRange }) {
     settings.set("difficulty", settings.get('difficulty') || "easy")
     settings.set("hidetitle", settings.get('hidetitle') || "on")
     
-    const apiURL = `http://localhost:8080${category}/${settings.get('difficulty')}` 
+    const apiURL = `http://localhost:8080/${category}/${settings.get('difficulty')}/${puzzleID}` 
     useEffect(() => {
-        axios.get(`${apiURL}/count`).then(countData => {
-            const randomID = Math.floor(Math.random() * countData.data["count(*)"])
-            axios.get(`${apiURL}/${randomID}`).then(response => {
+            axios.get(`${apiURL}`).then(response => {
                 setMovesObjectNotation(response.data.Moves);
                 setPositionFEN(response.data.FEN);
                 let possibleTitles = response.data.Themes.split(" ")
@@ -31,9 +30,7 @@ function PuzzlePage({ category, categoryRange }) {
             }).catch(response => {
                 console.error(response);
             })
-        }).catch(response => {
-            console.error("count", response)
-        })
+        
     }, [apiURL])
     if (!positionFEN || !movesObjectNotation) {
         return <>
@@ -66,7 +63,7 @@ function PuzzlePage({ category, categoryRange }) {
                 {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
 
                 <button className="navbutton navbutton--forward" onClick={() => { 
-                    setInterval(navigate(`${category}/${Math.ceil(Math.random() * categoryRange)}?${settings.toString()}`), 500) }}></button>
+                    navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`) }}></button>
             </div>
         </>
     )

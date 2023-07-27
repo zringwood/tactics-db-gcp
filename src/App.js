@@ -3,8 +3,16 @@ import PuzzlePage from './pages/PuzzlePage'
 import Header from './components/Header/Header'
 function App() {
   const ranges = {
-    middlegames:1644191,
-    endgames:1527915,
+    middlegames_easy:42417,
+    middlegames_medium:265410,
+    middlegames_hard:537875,
+    middlegames_grandmaster:412692,
+    middlegames_engine:382651,
+    endgames_easy:38448,
+    endgames_medium:421053,
+    endgames_hard:380018,
+    endgames_grandmaster:373110,
+    endgames_engine:304628,
     totalGames: 3366499,
   }
   return (
@@ -12,9 +20,9 @@ function App() {
       <BrowserRouter>
       <Header ranges = {ranges}/>
       <Routes>
-        <Route path = "/" element ={<Navigate to={`/middlegames/${Math.ceil(Math.random() * ranges.middlegames)}`}/>}/>
-        <Route path="/middlegames/:id" element={<PuzzlePage category={"/middlegames"} categoryRange={ranges.middlegames-1}/>}/>
-        <Route path="/endgames/:id" element={<PuzzlePage category={"/endgames"} categoryRange={ranges.endgames-1}/>}/>
+        <Route path = "/" element ={<Navigate to={`/middlegames/easy/${Math.ceil(Math.random() * ranges.middlegames_easy)}`}/>}/>
+        <Route path="/middlegames/:difficulty/:id" element={<PuzzlePage category={"middlegames"} ranges={ranges}/>}/>
+        <Route path="/endgames/:difficulty/:id" element={<PuzzlePage category={"endgames"} ranges={ranges}/>}/>
       </Routes>
       </BrowserRouter>
     </>
