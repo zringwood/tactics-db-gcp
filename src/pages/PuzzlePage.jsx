@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router"
 import { useSearchParams } from "react-router-dom";
+import GlobalSpinner from "../components/GlobalSpinner/GlobalSpinner";
 
 function PuzzlePage({ category, ranges }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
@@ -31,11 +32,8 @@ function PuzzlePage({ category, ranges }) {
             })
         
     }, [apiURL])
-    console.log(positionFEN, movesObjectNotation)
     if (!positionFEN || !movesObjectNotation) {
-        return <>
-            Loading...
-        </>
+        return <GlobalSpinner />
     }
     //Helper method. Converts camelCase to Title Case. 
     const titleCase = (camel) => {
