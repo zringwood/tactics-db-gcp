@@ -22,7 +22,8 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
         const difficulty = evt.target.difficulty.value;
         setIsShowingSettings(false)
         const currentPath = window.location.pathname.split('/')[1];
-        navigate(`${currentPath}/${difficulty}/${Math.ceil(Math.random()*ranges[`${currentPath.slice(1)}_${difficulty}`])}`)
+        
+        navigate(`${currentPath}/${difficulty}/${Math.ceil(Math.random()*ranges[`${currentPath}_${difficulty}`])}`)
     }
     
     return (
