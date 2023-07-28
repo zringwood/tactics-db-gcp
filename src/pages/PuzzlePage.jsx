@@ -31,7 +31,6 @@ function PuzzlePage({ category, ranges }) {
     const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}` 
     useEffect(() => {
             axios.get(`${apiURL}`).then(response => {
-                console.log(response)
                 setMovesObjectNotation(response.data.Moves);
                 setPositionFEN(response.data.FEN);
                 let possibleTitles = response.data.Themes.split(" ")
@@ -61,7 +60,7 @@ function PuzzlePage({ category, ranges }) {
     
     return (
         <>
-            <div className={`board-container`}>
+        <div className={`board-container`}>
             {<Chessboard position={"8/8/8/8/8/8/8/8 w - - - -"} customBoardStyle={
                     {
                         boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
@@ -70,15 +69,16 @@ function PuzzlePage({ category, ranges }) {
                     }
                 } />}
             {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />} 
-            </div>
-            <div className="navpanel">
-                <button className="navbutton navbutton--backward"></button>
-                <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
+        </div>
+        <div className="navpanel">
+            <button className="navbutton navbutton--backward"></button>
+            <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
+            {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
 
-                <button className="navbutton navbutton--forward" onClick={() => { 
-                    navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)}}></button>
-            </div>
+            <button className="navbutton navbutton--forward" onClick={() => { 
+                navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)}}></button>
+            
+        </div>
         </>
     )
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
-
+import "../PuzzleBoard/PuzzleBoard.scss"
 
 function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))

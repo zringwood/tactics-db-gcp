@@ -2,6 +2,7 @@
 
 .board-container{
     margin: 0 $mobile-indent;
+    height: 288px;
     @include tablet{
         margin: 0 $tablet-indent;
     }
@@ -40,6 +41,7 @@ body{
         background-image: url('../assets/hint_active.svg');
     }
 }
+
 .navpanel{
     display:flex;
     flex-direction: row;
