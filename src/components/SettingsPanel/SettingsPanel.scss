@@ -11,6 +11,9 @@
     right: 1rem;
     z-index: 20;
     padding: $mobile-indent;
+    @include tablet{
+        width: 40vw;
+    }
     &__exit{
         background-image: url('../../assets/exit.svg');
         background-position: center;
@@ -39,7 +42,7 @@
     display: flex;
     flex-direction: column;
     height:90%;
-    margin-top: 10%;
+    // margin-top: 10%;
     &__submit{
         background-color: $square-light;
         color:black;
@@ -48,6 +51,9 @@
         padding: 0.5rem;
         border-radius: 12px;
         margin-top: auto;
+        @include tablet{
+            font-size: 1.5rem;
+        }
     }
     &__header{
         margin:0;
@@ -59,11 +65,24 @@
             width: 30%;
         }
     }
-    &__titles{
+    &__checkbox{
         margin-bottom:1rem;
+        @include tablet{
+            width:1rem;
+            height:1rem;
+            }
     }
-    &__autoserve{
-        margin-bottom: 1rem;
+ 
+    &__radio{
+        @include tablet{
+        width:1rem;
+        height:1rem;
+        }
+    }
+}
+label{
+    @include tablet{
+        font-size: 1.5rem;
     }
 }
 

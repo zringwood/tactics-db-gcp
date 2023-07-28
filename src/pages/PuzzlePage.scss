@@ -9,7 +9,7 @@
     }
     @include desktop{
         margin: 0 $desktop-indent;
-        height:43.5rem;
+        height:30rem;
     }
     
 }
@@ -18,6 +18,9 @@
     transform:translateY(-18rem);
     @include tablet{
         transform:translateY(-43.5rem);
+    }
+    @include desktop{
+        transform: translateY(-30rem);
     }
 }
 .background-board{

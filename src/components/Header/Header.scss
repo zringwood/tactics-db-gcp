@@ -13,6 +13,9 @@
         padding: 0 $tablet-indent;
         height: 5rem;
     }
+    @include desktop{
+        padding: 0 $desktop-indent;
+    }
     &__title{
        margin-right: auto;
        margin-left: auto;

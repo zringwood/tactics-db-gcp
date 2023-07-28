@@ -48,11 +48,11 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
                 <div className='flex-container'>
                     <p className='settingsform__label settingsform__label--radio'>{checkedRadio}</p>
                     <div className='radiobuttons'>
-                        <input type="radio" className='settingsform__difficulty--easy' id='Easy' name="difficulty" value="easy" defaultChecked onChange={(evt) => setCheckedRadio(evt.target.id)} />
-                        <input type="radio" className='settingsform__difficulty--medium' id='Medium' name="difficulty" value="medium" onChange={(evt) => setCheckedRadio(evt.target.id)} />
-                        <input type="radio" className='settingsform__difficulty--hard' id='Hard' name="difficulty" value="hard" onChange={(evt) => setCheckedRadio(evt.target.id)} />
-                        <input type="radio" className='settingsform__difficulty--grandmaster' id='GM' name="difficulty" value="grandmaster" onChange={(evt) => setCheckedRadio(evt.target.id)} />
-                        <input type="radio" className='settingsform__difficulty--engine' id='Engine' name="difficulty" value="engine" onChange={(evt) => setCheckedRadio(evt.target.id)} />
+                        <input type="radio" className='settingsform__radio' id='Easy' name="difficulty" value="easy" defaultChecked onChange={(evt) => setCheckedRadio(evt.target.id)} />
+                        <input type="radio" className='settingsform__radio' id='Medium' name="difficulty" value="medium" onChange={(evt) => setCheckedRadio(evt.target.id)} />
+                        <input type="radio" className='settingsform__radio' id='Hard' name="difficulty" value="hard" onChange={(evt) => setCheckedRadio(evt.target.id)} />
+                        <input type="radio" className='settingsform__radio' id='GM' name="difficulty" value="grandmaster" onChange={(evt) => setCheckedRadio(evt.target.id)} />
+                        <input type="radio" className='settingsform__radio' id='Engine' name="difficulty" value="engine" onChange={(evt) => setCheckedRadio(evt.target.id)} />
                     </div>
                 </div>
                 
@@ -61,18 +61,18 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
                 <div className='flex-container'>
                     <p className='settingsform__label settingsform__label--radio'>{checkedCategory}</p>
                     <div className='radiobuttons'>
-                        <input type="radio" className='settingsform__category--easy' id='Middlegames' name="category" value="middlegames" defaultChecked onChange={(evt) => setCheckedCategory(evt.target.id)} />
-                        <input type="radio" className='settingsform__category--medium' id='Endgames' name="category" value="endgames" onChange={(evt) => setCheckedCategory(evt.target.id)} />
+                        <input type="radio" className='settingsform__radio' id='Middlegames' name="category" value="middlegames" defaultChecked onChange={(evt) => setCheckedCategory(evt.target.id)} />
+                        <input type="radio" className='settingsform__radio' id='Endgames' name="category" value="endgames" onChange={(evt) => setCheckedCategory(evt.target.id)} />
                     </div>
                 </div>
                 
                 <div className='flex-container'>
                     <label htmlFor='hideTitles'>Hide Titles</label>
-                    <input type="checkbox" className='settingsform__titles' id="hideTitles" name="hideTitle" onChange={(evt) => setHideTitles(evt.target.value)}/>
+                    <input type="checkbox" className='settingsform__checkbox' id="hideTitles" name="hideTitle" onChange={(evt) => setHideTitles(evt.target.value)}/>
                 </div>
                 <div className='flex-container'>
                     <label htmlFor='autoServe'>Serve Puzzles Automatically</label>
-                    <input type="checkbox" className='settingsform__autoserve' id="autoserve" name="autoserve" onChange={(evt) => setAutoServe(evt.target.value)}/>
+                    <input type="checkbox" className='settingsform__checkbox' id="autoserve" name="autoserve" onChange={(evt) => setAutoServe(evt.target.value)}/>
                 </div>
                
                 <button type="submit" className='settingsform__submit'>New Puzzle</button>
