@@ -15,7 +15,7 @@ function PuzzlePage({ category, ranges }) {
     const puzzleID = useParams().id
     const difficulty = useParams().difficulty
     const navigate = useNavigate();
-    
+
     //Settings are passed through URL queries
     const [settings,] = useSearchParams()
     //If there are no settings, we use default settings. 
@@ -33,21 +33,22 @@ function PuzzlePage({ category, ranges }) {
     // if(!localStorage.getItem("visited")){
     //     localStorage.setItem("visited", [])
     // }
-    // localStorage.setItem("visited", [location.pathname])
-    const [visited, setVisited] = useState([])
-    // useEffect(() => {
-    //     localStorage.setItem("visited", ...visited)
-    // }, [visited])
-    const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}` 
+    const [visited, setVisited] = useState(!!localStorage.getItem("visited") ? localStorage.getItem("visited").split(',') : [])
     useEffect(() => {
-            axios.get(`${apiURL}`).then(response => {
-                setMovesObjectNotation(response.data.Moves);
-                setPositionFEN(response.data.FEN);
-                let possibleTitles = response.data.Themes.split(" ")
-                setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
-            }).catch(response => {
-                console.error(response);
-            })
+        //Store a maximum of 50 puzzles in localStorage. Little arbitrary but it has to be some number or we'll get errors when localStorage maxes out. 
+        if (visited.length > 0)
+            localStorage.setItem("visited", visited.slice(0, 50))
+    }, [visited])
+    const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}`
+    useEffect(() => {
+        axios.get(`${apiURL}`).then(response => {
+            setMovesObjectNotation(response.data.Moves);
+            setPositionFEN(response.data.FEN);
+            let possibleTitles = response.data.Themes.split(" ")
+            setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
+        }).catch(response => {
+            console.error(response);
+        })
     }, [apiURL])
     if (!positionFEN || !movesObjectNotation) {
         return <GlobalSpinner />
@@ -66,40 +67,39 @@ function PuzzlePage({ category, ranges }) {
         return title
     }
 
-    
+
     return (
         <>
-        <div className={`board-container`}>
-            {<Chessboard position={"8/8/8/8/8/8/8/8 w - - - -"} customBoardStyle={
+            <div className={`board-container`}>
+                {<Chessboard position={"8/8/8/8/8/8/8/8 w - - - -"} customBoardStyle={
                     {
                         boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
                         borderRadius: "24px",
-                        position:"fixed"
+                        position: "fixed"
                     }
                 } />}
-            {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />} 
-        </div>
-        <div className="navpanel">
-           
-            <button className={`navbutton navbutton--backward ${visited.length === 0 && "navbutton--hide"}`} onClick={() => {
-                if(visited.length > 0)
-                navigate(visited.shift())
+                {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />}
+            </div>
+            <div className="navpanel">
+
+                <button className={`navbutton navbutton--backward ${visited.length === 0 && "navbutton--hide"}`} onClick={() => {
+                    if (visited.length > 0)
+                        navigate(visited.shift())
                 }}></button>
-          
-            <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-            {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
-            {!transition ? 
-            <button className="navbutton navbutton--forward" onClick={() => { 
-                navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)
-                setVisited([location.pathname, ...visited])
-                console.log(visited)
-            }}></button>
-            :
-            <div style={{marginLeft: "auto", width: "36px", height: "36px"}}>
-            <GlobalSpinner />
-            </div>}
-            
-        </div>
+
+                <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
+                {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
+                {!transition ?
+                    <button className="navbutton navbutton--forward" onClick={() => {
+                        navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
+                        setVisited([location.pathname, ...visited])
+                    }}></button>
+                    :
+                    <div style={{ marginLeft: "auto", width: "36px", height: "36px" }}>
+                        <GlobalSpinner />
+                    </div>}
+
+            </div>
         </>
     )
 }
