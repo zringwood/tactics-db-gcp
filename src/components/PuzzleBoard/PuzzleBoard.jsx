@@ -49,7 +49,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
             setHighlightSquares({})
         }
         else {
-            if(square != selectedSquare){
+            if(square !== selectedSquare){
                 setTitle("Try Again")
                 setTimeout(() => {
                     setTitle(title)
