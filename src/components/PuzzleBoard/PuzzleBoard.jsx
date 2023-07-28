@@ -24,11 +24,10 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         //moveIndex must be reset when the puzzle resets.
          moveIndex.current = 0;
          setShowHint(false)
-    }, [positionFEN])
+    }, [positionFEN, setShowHint])
 
     useEffect(() => {
         let hintHightlight = {}
-        console.log(moveIndex.current, movesArray.length)
         if (showHint && moveIndex.current < movesArray.length)
             hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
         setHightlightHint(hintHightlight)

@@ -40,6 +40,9 @@ body{
     &--hintactive{
         background-image: url('../assets/hint_active.svg');
     }
+    &--hide{
+        background-image: none;
+    }
 }
 
 .navpanel{

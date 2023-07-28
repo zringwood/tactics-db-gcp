@@ -80,10 +80,12 @@ function PuzzlePage({ category, ranges }) {
             {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />} 
         </div>
         <div className="navpanel">
-            <button className="navbutton navbutton--backward" onClick={() => {
+           
+            <button className={`navbutton navbutton--backward ${visited.length === 0 && "navbutton--hide"}`} onClick={() => {
+                if(visited.length > 0)
                 navigate(visited.shift())
-                console.log(visited)
                 }}></button>
+          
             <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
             {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
             {!transition ? 
