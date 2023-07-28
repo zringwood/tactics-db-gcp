@@ -15,17 +15,26 @@ function App() {
     endgames_engine:304628,
     totalGames: 3366499,
   }
+
+  let rootTarget = `/middlegames/easy/${Math.ceil(Math.random() * ranges.middlegames_easy)}`
+  //If the user has never used our app before, we want to load two ultra-simple puzzles to teach the controls. 
+  if(!localStorage.getItem("visited")){
+    rootTarget =  `introduction/easy/1`
+  }
   return (
     <>
       <BrowserRouter>
       <Header ranges = {ranges}/>
       <Routes>
-      <Route path = "/" element ={<Navigate to={`/middlegames/easy/${Math.ceil(Math.random() * ranges.middlegames_easy)}`}/>}/>
+      <Route path = "/" element ={<Navigate to={rootTarget}/>}/>
       <Route path = "/middlegames/">
         <Route path=":difficulty/:id" element={<PuzzlePage category={"middlegames"} ranges={ranges} />}/>
       </Route>
       <Route path = "/endgames/" >
         <Route path=":difficulty/:id" element={<PuzzlePage category={"endgames"} ranges={ranges}/>}/>
+      </Route>
+      <Route path = "/introduction/" >
+        <Route path=":difficulty/:id" element={<PuzzlePage category={"introduction"} ranges={ranges}/>}/>
       </Route>
       </Routes>
       </BrowserRouter>

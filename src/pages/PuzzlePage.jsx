@@ -29,17 +29,14 @@ function PuzzlePage({ category, ranges }) {
             setTransition("")
         }, 500)
     }, [location])
-    //Check to see if the user has visited this page before. 
-    // if(!localStorage.getItem("visited")){
-    //     localStorage.setItem("visited", [])
-    // }
+
     const [visited, setVisited] = useState(!!localStorage.getItem("visited") ? localStorage.getItem("visited").split(',') : [])
     useEffect(() => {
         //Store a maximum of 50 puzzles in localStorage. Little arbitrary but it has to be some number or we'll get errors when localStorage maxes out. 
         if (visited.length > 0)
             localStorage.setItem("visited", visited.slice(0, 50))
     }, [visited])
-    const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}`
+    let apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}`
     useEffect(() => {
         axios.get(`${apiURL}`).then(response => {
             setMovesObjectNotation(response.data.Moves);
@@ -91,7 +88,15 @@ function PuzzlePage({ category, ranges }) {
                 {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
                 {!transition ?
                     <button className="navbutton navbutton--forward" onClick={() => {
-                        navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
+                        if (location.pathname.includes('introduction')) {
+                            if (puzzleID == 1)
+                                navigate(`/introduction/easy/2`)
+                            else
+                                navigate(`/middlegames/easy/1`)
+                        } else {
+                            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
+
+                        }
                         setVisited([location.pathname, ...visited])
                     }}></button>
                     :
