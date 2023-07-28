@@ -78,7 +78,10 @@ function PuzzlePage({ category, ranges }) {
             <button className="navbutton navbutton--forward" onClick={() => { 
                 navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)}}></button>
             :
-            <GlobalSpinner />}
+            <div style={{marginLeft: "auto", width: "36px", height: "36px"}}>
+            <GlobalSpinner />
+            </div>}
+            
         </div>
         </>
     )

@@ -2,7 +2,7 @@
 
 .spinner{
     border-radius: 50%; 
-  border: 10px solid transparent; 
+  border: 5px solid transparent; 
   background: linear-gradient(45deg,$square-dark, $square-light) border-box; 
   mask: 
      linear-gradient(#fff 0 0) padding-box, 
@@ -10,8 +10,7 @@
      -webkit-mask-composite: xor;
      mask-composite: exclude;
     width: 100%;
-    height:0;
-    padding-top: 94%;
+    height:100%;
     animation-name: spin;
     animation-duration: 1s;
     animation-iteration-count: infinite;
