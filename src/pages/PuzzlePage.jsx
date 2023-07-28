@@ -55,7 +55,9 @@ function PuzzlePage({ category, ranges }) {
         }
     }, [isPuzzleOver, settings, navigate, category, difficulty, ranges, location.search])
     if (!positionFEN || !movesObjectNotation) {
-        return <GlobalSpinner />
+        return <div style={{margin:"0 auto",  width: "70vw", height: "70vw" }}>
+        <GlobalSpinner />
+    </div>
     }
     //Helper method. Converts camelCase to Title Case. 
     const titleCase = (camel) => {
