@@ -3,12 +3,10 @@ import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
 import "../PuzzleBoard/PuzzleBoard.scss"
 
-function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint, setIsPuzzleOver }) {
+function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint, setTitle, title }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
     // const [position, setPosition] = useState(positionFEN)
     const moveIndex = useRef(0)
-    //Logic to perform an animation when the wrong move is played
-    const [isWrongMove, setIsWrongMove] = useState(false)
     //Used for click functionality
     const [selectedSquare, setSelectedSquare] = useState(undefined)
     //Used for highlighting squares
@@ -51,6 +49,13 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
             setHighlightSquares({})
         }
         else {
+            if(square != selectedSquare){
+                setTitle("Try Again")
+                setTimeout(() => {
+                    setTitle(title)
+                }, 1000)
+
+            }
             setSelectedSquare(undefined)
             setHighlightSquares({})
         }
@@ -69,9 +74,9 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
             }
             return true;
         } else {
-            setIsWrongMove(true)
+            setTitle("Try Again")
             setTimeout(() => {
-                setIsWrongMove(false)
+                setTitle(title)
             }, 1000)
             return false;
         }
@@ -87,7 +92,6 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         moveIndex.current += 1;
         setShowHint(false)
         setMoveLogic(new Chess(moveLogic.fen()))
-        setIsPuzzleOver(isEndofPuzzle())
     }
     
     //Plays the first move. 
@@ -113,12 +117,13 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                         borderRadius: "24px"
                     }
                 }
+                showBoardNotation={false}
                 customSquareStyles={{
                     ...highlightSquares,
                     ...highlightHint
                 }} 
                 />
-            {isWrongMove && <p> Try Again!</p>}
+           
         </>
     )
 }

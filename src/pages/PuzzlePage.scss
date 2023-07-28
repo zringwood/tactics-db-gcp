@@ -2,14 +2,23 @@
 
 .board-container{
     margin: 0 $mobile-indent;
-    height: 288px;
+    height: 18rem;
     @include tablet{
         margin: 0 $tablet-indent;
+        height:43.5rem;
     }
     @include desktop{
         margin: 0 $desktop-indent;
+        height:43.5rem;
     }
     
+}
+.page-positioning{
+    position:relative;
+    transform:translateY(-18rem);
+    @include tablet{
+        transform:translateY(-43.5rem);
+    }
 }
 .background-board{
     position:fixed;
@@ -24,9 +33,13 @@ body{
     border:none;
     outline:none;
     width: 2rem;
-        height:2rem;
-        background-repeat: no-repeat;
-        background-size: cover;
+    height:2rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+    @include tablet{
+        width:3rem;
+        height:3rem;
+    }
     &--forward{
         background-image: url('../assets/chevron-right.svg');
         margin-left:auto;
@@ -49,12 +62,12 @@ body{
     display:flex;
     flex-direction: row;
     align-items: center;
-    margin: $mobile-indent;
+    margin: 0 $mobile-indent;
     @include tablet{
-        margin: $tablet-indent;
+        margin: 0 $tablet-indent;
     }
     @include desktop{
-        margin: $tablet-indent $desktop-indent;
+        margin: 0 $desktop-indent;
     }
     &__title{
         margin-left: 1rem;

@@ -79,12 +79,16 @@ function PuzzlePage({ category, ranges }) {
                     {
                         boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
                         borderRadius: "24px",
-                        position: "fixed"
                     }
-                } />}
-                {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setIsPuzzleOver={setIsPuzzleOver}/>}
+                    
+                } 
+                showBoardNotation={false}
+                />}
             </div>
-            <div className="navpanel">
+            <div className="board-container page-positioning"> 
+                {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setTitle={setTitle} title={title}/>}
+            </div>
+            <div className="navpanel page-positioning">
 
                 <button className={`navbutton navbutton--backward ${visited.length === 0 && "navbutton--hide"}`} onClick={() => {
                     if (visited.length > 0)

@@ -33,3 +33,15 @@ $desktop-indent: calc(
 a {
   text-decoration: none;
 }
+p{
+  font-size: 1rem;
+  @include tablet{
+    font-size: 2rem;
+  }
+}
+h2{
+  font-size: 1.5rem;
+  @include tablet{
+    font-size: 3rem;
+  }
+}
