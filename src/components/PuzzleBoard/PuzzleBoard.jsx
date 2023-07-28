@@ -26,6 +26,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         setMoveLogic(new Chess(positionFEN))
         //moveIndex must be reset when the puzzle resets.
          moveIndex.current = 0;
+         setShowHint(false)
     }, [positionFEN])
 
     useEffect(() => {
@@ -111,7 +112,6 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 boardOrientation={orientation}
                 customBoardStyle={
                     {
-                        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
                         borderRadius: "24px"
                     }
                 }

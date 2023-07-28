@@ -8,7 +8,13 @@
     @include desktop{
         margin: 0 $desktop-indent;
     }
+    
 }
+.background-board{
+    position:fixed;
+    z-index: -20;
+}
+
 body{
     background-color: $square-light;
 }
