@@ -74,10 +74,11 @@ function PuzzlePage({ category, ranges }) {
             <button className="navbutton navbutton--backward"></button>
             <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
             {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
-
+            {!transition ? 
             <button className="navbutton navbutton--forward" onClick={() => { 
                 navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)}}></button>
-            
+            :
+            <GlobalSpinner />}
         </div>
         </>
     )
