@@ -3,7 +3,7 @@ import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
 import "../PuzzleBoard/PuzzleBoard.scss"
 
-function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint }) {
+function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint, setIsPuzzleOver }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
     // const [position, setPosition] = useState(positionFEN)
     const moveIndex = useRef(0)
@@ -87,6 +87,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         moveIndex.current += 1;
         setShowHint(false)
         setMoveLogic(new Chess(moveLogic.fen()))
+        setIsPuzzleOver(isEndofPuzzle())
     }
     
     //Plays the first move. 
@@ -117,7 +118,6 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                     ...highlightHint
                 }} 
                 />
-            {moveIndex.current >= movesArray.length && <p>You Win!</p>}
             {isWrongMove && <p> Try Again!</p>}
         </>
     )

@@ -6,6 +6,8 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
     const [position, setPosition] = useState(0)
     const [checkedRadio, setCheckedRadio] = useState("Easy")
     const [checkedCategory, setCheckedCategory] = useState("Middlegames")
+    const [autoserve, setAutoServe] = useState("off")
+    const [hideTitles, setHideTitles] = useState("off")
     const navigate = useNavigate()
     const onSwipeRightListener = () => {
 
@@ -22,8 +24,8 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
         const difficulty = evt.target.difficulty.value;
         setIsShowingSettings(false)
         const category = evt.target.category.value
-
-        navigate(`${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
+       
+        navigate(`${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}?hidetitles=${hideTitles}&autoserve=${autoserve}`)
     }
 
     return (
@@ -66,11 +68,11 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
                 
                 <div className='flex-container'>
                     <label htmlFor='hideTitles'>Hide Titles</label>
-                    <input type="checkbox" className='settingsform__titles' id="hideTitles" name="hideTitle" />
+                    <input type="checkbox" className='settingsform__titles' id="hideTitles" name="hideTitle" onChange={(evt) => setHideTitles(evt.target.value)}/>
                 </div>
                 <div className='flex-container'>
                     <label htmlFor='autoServe'>Serve Puzzles Automatically</label>
-                    <input type="checkbox" className='settingsform__autoserve' id="autoserve" name="autoserve" />
+                    <input type="checkbox" className='settingsform__autoserve' id="autoserve" name="autoserve" onChange={(evt) => setAutoServe(evt.target.value)}/>
                 </div>
                
                 <button type="submit" className='settingsform__submit'>New Puzzle</button>

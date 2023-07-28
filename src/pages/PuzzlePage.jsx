@@ -12,14 +12,13 @@ function PuzzlePage({ category, ranges }) {
     const [positionFEN, setPositionFEN] = useState("")
     const [isHint, setIsHint] = useState(false)
     const [title, setTitle] = useState("")
+    const [isPuzzleOver, setIsPuzzleOver] = useState(false)
     const puzzleID = useParams().id
     const difficulty = useParams().difficulty
     const navigate = useNavigate();
 
     //Settings are passed through URL queries
     const [settings,] = useSearchParams()
-    //If there are no settings, we use default settings. 
-    settings.set("hidetitle", settings.get('hidetitle') || "off")
     //We pull this in so that we can hide the move animations when navigating between pages. 
     const location = useLocation()
     const [transition, setTransition] = useState("")
@@ -47,6 +46,14 @@ function PuzzlePage({ category, ranges }) {
             console.error(response);
         })
     }, [apiURL])
+    useEffect(() => {
+        if(isPuzzleOver && settings.get('autoserve') === 'on'){
+            setTimeout(() => 
+            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}${location.search}`)
+            , 500)
+            setIsPuzzleOver(false)
+        }
+    }, [isPuzzleOver, settings, navigate, category, difficulty, ranges, location.search])
     if (!positionFEN || !movesObjectNotation) {
         return <GlobalSpinner />
     }
@@ -75,26 +82,26 @@ function PuzzlePage({ category, ranges }) {
                         position: "fixed"
                     }
                 } />}
-                {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />}
+                {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setIsPuzzleOver={setIsPuzzleOver}/>}
             </div>
             <div className="navpanel">
 
                 <button className={`navbutton navbutton--backward ${visited.length === 0 && "navbutton--hide"}`} onClick={() => {
                     if (visited.length > 0)
-                        navigate(visited.shift())
+                        navigate(`${visited.shift()}${location.search}`)
                 }}></button>
 
                 <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
+                {settings.get("hidetitles") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
                 {!transition ?
                     <button className="navbutton navbutton--forward" onClick={() => {
                         if (location.pathname.includes('introduction')) {
                             if (puzzleID === 1)
-                                navigate(`/introduction/easy/2`)
+                                navigate(`/introduction/easy/2${location.search}`)
                             else
-                                navigate(`/middlegames/easy/1`)
+                                navigate(`/middlegames/easy/1${location.search}`)
                         } else {
-                            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
+                            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}${location.search}`)
 
                         }
                         setVisited([location.pathname, ...visited])
