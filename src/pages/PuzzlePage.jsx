@@ -15,6 +15,7 @@ function PuzzlePage({ category, ranges }) {
     const puzzleID = useParams().id
     const difficulty = useParams().difficulty
     const navigate = useNavigate();
+    
     //Settings are passed through URL queries
     const [settings,] = useSearchParams()
     //If there are no settings, we use default settings. 
@@ -28,6 +29,15 @@ function PuzzlePage({ category, ranges }) {
             setTransition("")
         }, 500)
     }, [location])
+    //Check to see if the user has visited this page before. 
+    // if(!localStorage.getItem("visited")){
+    //     localStorage.setItem("visited", [])
+    // }
+    // localStorage.setItem("visited", [location.pathname])
+    const [visited, setVisited] = useState([])
+    // useEffect(() => {
+    //     localStorage.setItem("visited", ...visited)
+    // }, [visited])
     const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}` 
     useEffect(() => {
             axios.get(`${apiURL}`).then(response => {
@@ -38,7 +48,6 @@ function PuzzlePage({ category, ranges }) {
             }).catch(response => {
                 console.error(response);
             })
-        
     }, [apiURL])
     if (!positionFEN || !movesObjectNotation) {
         return <GlobalSpinner />
@@ -71,12 +80,18 @@ function PuzzlePage({ category, ranges }) {
             {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />} 
         </div>
         <div className="navpanel">
-            <button className="navbutton navbutton--backward"></button>
+            <button className="navbutton navbutton--backward" onClick={() => {
+                navigate(visited.shift())
+                console.log(visited)
+                }}></button>
             <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
             {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
             {!transition ? 
             <button className="navbutton navbutton--forward" onClick={() => { 
-                navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)}}></button>
+                navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)
+                setVisited([location.pathname, ...visited])
+                console.log(visited)
+            }}></button>
             :
             <div style={{marginLeft: "auto", width: "36px", height: "36px"}}>
             <GlobalSpinner />
