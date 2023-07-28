@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router'
 function SettingsPanel({ setIsShowingSettings, ranges }) {
     const [position, setPosition] = useState(0)
     const [checkedRadio, setCheckedRadio] = useState("Easy")
-  
+    const [checkedCategory, setCheckedCategory] = useState("Middlegames")
     const navigate = useNavigate()
     const onSwipeRightListener = () => {
         
@@ -21,9 +21,9 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
         evt.preventDefault()
         const difficulty = evt.target.difficulty.value;
         setIsShowingSettings(false)
-        const currentPath = window.location.pathname.split('/')[1];
+        const category = evt.target.category.value
         
-        navigate(`${currentPath}/${difficulty}/${Math.ceil(Math.random()*ranges[`${currentPath}_${difficulty}`])}`)
+        navigate(`${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)
     }
     
     return (
@@ -48,6 +48,13 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
                 <input type="radio" className='settingsform__difficulty--hard' id='Hard' name="difficulty" value="hard" onChange={(evt) => setCheckedRadio(evt.target.id)}/>
                 <input type="radio" className='settingsform__difficulty--grandmaster' id='GM' name="difficulty" value="grandmaster" onChange={(evt) => setCheckedRadio(evt.target.id)} />
                 <input type="radio" className='settingsform__difficulty--engine' id='Engine' name="difficulty" value="engine" onChange={(evt) => setCheckedRadio(evt.target.id)}/>
+                </div>
+                </div>
+                <div className='flex-container'>
+                <p className='settingsform__label settingsform__label--radio'>{checkedCategory}</p>
+                <div className='radiobuttons'>
+                <input type="radio" className='settingsform__category--easy' id='Middlegames' name="category" value="middlegames" defaultChecked onChange={(evt) => setCheckedCategory(evt.target.id)}/>
+                <input type="radio" className='settingsform__category--medium' id='Endgames' name="category" value="endgames" onChange={(evt) => setCheckedCategory(evt.target.id)}/>
                 </div>
                 </div>
                 <div className='flex-container'>
