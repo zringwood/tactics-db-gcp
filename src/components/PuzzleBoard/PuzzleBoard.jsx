@@ -15,10 +15,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
     const [highlightSquares, setHighlightSquares] = useState({})
     //The initial change of position shouldn't be animated. After that it should be. 
     const animationLength = useRef(0)
-    let hintHightlight = {}
-    if (showHint)
-        hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
-    const [highlightHint, setHightlightHint] = useState(hintHightlight)
+    const [highlightHint, setHightlightHint] = useState({})
     
     //The state variables don't actually change on reload without this.  
     useEffect(() => {
@@ -31,7 +28,8 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
 
     useEffect(() => {
         let hintHightlight = {}
-        if (showHint)
+        console.log(moveIndex.current, movesArray.length)
+        if (showHint && moveIndex.current < movesArray.length)
             hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
         setHightlightHint(hintHightlight)
     }, [showHint, movesArray])
