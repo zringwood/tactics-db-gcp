@@ -38,28 +38,39 @@
 .settingsform{
     display: flex;
     flex-direction: column;
-    align-items: center;
     height:90%;
     margin-top: 10%;
-    row-gap: 1rem;
     &__submit{
         background-color: $square-light;
+        color:black;
         outline:none;
         border:none;
         padding: 0.5rem;
         border-radius: 12px;
         margin-top: auto;
     }
+    &__header{
+        margin:0;
+        align-self: center;
+    }
     &__label{
-        margin:0 0 ;
+        margin:0 0 1rem 0;
         &--radio{
             width: 30%;
         }
     }
+    &__titles{
+        margin-bottom:1rem;
+    }
+    &__autoserve{
+        margin-bottom: 1rem;
+    }
 }
+
 .flex-container{
     display:flex;
     justify-content: space-between;
+    align-items: baseline;
     width: 100%;
 }
 .radiobuttons{
