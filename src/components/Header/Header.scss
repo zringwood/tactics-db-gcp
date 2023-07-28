@@ -7,20 +7,21 @@
     align-items: center;
     list-style-type: none;
     margin: 0;
-    height:2rem;
+    height:3rem;
     padding: 0 $mobile-indent;
     @include tablet{
         padding: 0 $tablet-indent;
+        height: 5rem;
     }
-    &__link{
-        
-        background-color: $square-light;
-        
+    @include desktop{
+        padding: 0 $desktop-indent;
     }
-    &__text{
-        color:black;
-        margin: 0;
+    &__title{
+       margin-right: auto;
+       margin-left: auto;
+       
     }
+    
     &__settings{
         background-image: url('../../assets/settings.svg');
         width: 1rem;
@@ -30,6 +31,10 @@
         border:none;
         outline: none;
         background-color: rgba(#000, 0);
+        @include tablet{
+            width: 2.5rem;
+            height: 2.5rem;
+        }
         &--animate{
             transition: 1.5s;
             transform: rotate(360deg);

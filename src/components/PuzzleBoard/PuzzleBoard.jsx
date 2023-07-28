@@ -1,24 +1,19 @@
 import { useState, useEffect, useRef } from "react"
 import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
+import "../PuzzleBoard/PuzzleBoard.scss"
 
-
-function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint }) {
+function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint, setTitle, title }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
     // const [position, setPosition] = useState(positionFEN)
     const moveIndex = useRef(0)
-    //Logic to perform an animation when the wrong move is played
-    const [isWrongMove, setIsWrongMove] = useState(false)
     //Used for click functionality
     const [selectedSquare, setSelectedSquare] = useState(undefined)
     //Used for highlighting squares
     const [highlightSquares, setHighlightSquares] = useState({})
     //The initial change of position shouldn't be animated. After that it should be. 
     const animationLength = useRef(0)
-    let hintHightlight = {}
-    if (showHint)
-        hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
-    const [highlightHint, setHightlightHint] = useState(hintHightlight)
+    const [highlightHint, setHightlightHint] = useState({})
     
     //The state variables don't actually change on reload without this.  
     useEffect(() => {
@@ -26,11 +21,12 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
         setMoveLogic(new Chess(positionFEN))
         //moveIndex must be reset when the puzzle resets.
          moveIndex.current = 0;
-    }, [positionFEN])
+         setShowHint(false)
+    }, [positionFEN, setShowHint])
 
     useEffect(() => {
         let hintHightlight = {}
-        if (showHint)
+        if (showHint && moveIndex.current < movesArray.length)
             hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
         setHightlightHint(hintHightlight)
     }, [showHint, movesArray])
@@ -53,6 +49,13 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
             setHighlightSquares({})
         }
         else {
+            if(square !== selectedSquare){
+                setTitle("Try Again")
+                setTimeout(() => {
+                    setTitle(title)
+                }, 1000)
+
+            }
             setSelectedSquare(undefined)
             setHighlightSquares({})
         }
@@ -71,9 +74,9 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
             }
             return true;
         } else {
-            setIsWrongMove(true)
+            setTitle("Try Again")
             setTimeout(() => {
-                setIsWrongMove(false)
+                setTitle(title)
             }, 1000)
             return false;
         }
@@ -111,17 +114,16 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 boardOrientation={orientation}
                 customBoardStyle={
                     {
-                        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
                         borderRadius: "24px"
                     }
                 }
+                showBoardNotation={false}
                 customSquareStyles={{
                     ...highlightSquares,
                     ...highlightHint
                 }} 
                 />
-            {moveIndex.current >= movesArray.length && <p>You Win!</p>}
-            {isWrongMove && <p> Try Again!</p>}
+           
         </>
     )
 }

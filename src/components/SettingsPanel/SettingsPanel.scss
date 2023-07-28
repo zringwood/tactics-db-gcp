@@ -11,6 +11,9 @@
     right: 1rem;
     z-index: 20;
     padding: $mobile-indent;
+    @include tablet{
+        width: 40vw;
+    }
     &__exit{
         background-image: url('../../assets/exit.svg');
         background-position: center;
@@ -38,28 +41,55 @@
 .settingsform{
     display: flex;
     flex-direction: column;
-    align-items: center;
     height:90%;
-    margin-top: 10%;
-    row-gap: 1rem;
+    // margin-top: 10%;
     &__submit{
         background-color: $square-light;
+        color:black;
         outline:none;
         border:none;
         padding: 0.5rem;
         border-radius: 12px;
         margin-top: auto;
+        @include tablet{
+            font-size: 1.5rem;
+        }
+    }
+    &__header{
+        margin:0;
+        align-self: center;
     }
     &__label{
-        margin:0 0 ;
+        margin:0 0 1rem 0;
         &--radio{
             width: 30%;
         }
     }
+    &__checkbox{
+        margin-bottom:1rem;
+        @include tablet{
+            width:1rem;
+            height:1rem;
+            }
+    }
+ 
+    &__radio{
+        @include tablet{
+        width:1rem;
+        height:1rem;
+        }
+    }
 }
+label{
+    @include tablet{
+        font-size: 1.5rem;
+    }
+}
+
 .flex-container{
     display:flex;
     justify-content: space-between;
+    align-items: baseline;
     width: 100%;
 }
 .radiobuttons{

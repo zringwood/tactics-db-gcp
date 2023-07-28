@@ -25,11 +25,29 @@ $tablet-indent: 2.25rem;
 //This needs to change based on the width of the window.
 //We get the width with 100vw, find how much larger the window is than our desktop breakpoint,
 //then divide it by 2 so that the indent can be applied to both sides.
-$base-desktop-indent: 7.5rem;
+$base-desktop-indent: 25rem;
 $desktop-indent: calc(
   $base-desktop-indent + ((1vw * 100) - $desktop-breakpoint) / 2
 );
 
 a {
   text-decoration: none;
+}
+p{
+  font-size: 1rem;
+  @include tablet{
+    font-size: 2rem;
+  }
+}
+h2{
+  font-size: 1.5rem;
+  @include tablet{
+    font-size: 3rem;
+  }
+}
+h3{
+  font-size: 1.25rem;
+  @include tablet{
+    font-size: 2rem;
+  }
 }
