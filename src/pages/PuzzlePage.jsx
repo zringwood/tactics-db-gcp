@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useLocation } from "react-router"
 import { useSearchParams } from "react-router-dom";
 import GlobalSpinner from "../components/GlobalSpinner/GlobalSpinner";
-import { Chessboard } from "react-chessboard";
 
 function PuzzlePage({ category, ranges }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
@@ -61,14 +60,7 @@ function PuzzlePage({ category, ranges }) {
     return (
         <>
         <div className={`board-container`}>
-            {<Chessboard position={"8/8/8/8/8/8/8/8 w - - - -"} customBoardStyle={
-                    {
-                        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
-                        borderRadius: "24px",
-                        position:"fixed"
-                    }
-                } />}
-            {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />} 
+            <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />
         </div>
         <div className="navpanel">
             <button className="navbutton navbutton--backward"></button>
