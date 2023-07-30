@@ -76,9 +76,9 @@ function PuzzlePage({ category, ranges }) {
 
     return (
         <>
-            <div className={`board-container`}>
+            {/* <div className={`board-container`}>
                 <img className = "background-board" src = {Background_Image} alt="" />
-            </div>
+            </div> */}
             <div className="board-container page-positioning"> 
                 {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setTitle={setTitle} title={title}/>}
             </div>
