@@ -28,12 +28,12 @@ function PuzzlePage({ category, ranges }) {
             setTransition("")
         }, 500)
     }, [location])
-    const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}` 
+    const apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}` 
     useEffect(() => {
             axios.get(`${apiURL}`).then(response => {
-                setMovesObjectNotation(response.data.Moves);
-                setPositionFEN(response.data.FEN);
-                let possibleTitles = response.data.Themes.split(" ")
+                setMovesObjectNotation(response.data.moves);
+                setPositionFEN(response.data.fen);
+                let possibleTitles = response.data.themes.split(" ")
                 setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
             }).catch(response => {
                 console.error(response);
