@@ -28,23 +28,17 @@ function PuzzlePage({ category, ranges }) {
             setTransition("")
         }, 500)
     }, [location])
-
-    const [visited, setVisited] = useState(!!localStorage.getItem("visited") ? localStorage.getItem("visited").split(',') : [])
+    const apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}` 
     useEffect(() => {
-        //Store a maximum of 50 puzzles in localStorage. Little arbitrary but it has to be some number or we'll get errors when localStorage maxes out. 
-        if (visited.length > 0)
-            localStorage.setItem("visited", visited.slice(0, 50))
-    }, [visited])
-    let apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}`
-    useEffect(() => {
-        axios.get(`${apiURL}`).then(response => {
-            setMovesObjectNotation(response.data.moves);
-            setPositionFEN(response.data.fen);
-            let possibleTitles = response.data.themes.split(" ")
-            setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
-        }).catch(response => {
-            console.error(response);
-        })
+            axios.get(`${apiURL}`).then(response => {
+                setMovesObjectNotation(response.data.moves);
+                setPositionFEN(response.data.fen);
+                let possibleTitles = response.data.themes.split(" ")
+                setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
+            }).catch(response => {
+                console.error(response);
+            })
+        
     }, [apiURL])
     useEffect(() => {
         if(isPuzzleOver && settings.get('autoserve') === 'on'){
