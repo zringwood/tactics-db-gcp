@@ -22,12 +22,12 @@ function PuzzlePage({ category, ranges }) {
     //We pull this in so that we can hide the move animations when navigating between pages. 
     const location = useLocation()
     const [transition, setTransition] = useState("")
-    useEffect(() => {
-        setTransition("win")
-        setTimeout(() => {
-            setTransition("")
-        }, 500)
-    }, [location])
+    // useEffect(() => {
+    //     setTransition("win")
+    //     setTimeout(() => {
+    //         setTransition("")
+    //     }, 500)
+    // }, [location])
 
     const [visited, setVisited] = useState(!!localStorage.getItem("visited") ? localStorage.getItem("visited").split(',') : [])
     useEffect(() => {
