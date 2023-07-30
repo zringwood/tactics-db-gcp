@@ -35,12 +35,12 @@ function PuzzlePage({ category, ranges }) {
         if (visited.length > 0)
             localStorage.setItem("visited", visited.slice(0, 50))
     }, [visited])
-    let apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}`
+    let apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}`
     useEffect(() => {
         axios.get(`${apiURL}`).then(response => {
-            setMovesObjectNotation(response.data.moves);
-            setPositionFEN(response.data.fen);
-            let possibleTitles = response.data.themes.split(" ")
+            setMovesObjectNotation(response.data.Moves);
+            setPositionFEN(response.data.FEN);
+            let possibleTitles = response.data.Themes.split(" ")
             setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
         }).catch(response => {
             console.error(response);
@@ -78,15 +78,6 @@ function PuzzlePage({ category, ranges }) {
         <>
             <div className={`board-container`}>
                 <img className = "background-board" src = {Background_Image} alt="" />
-                {/* {<Chessboard position={"8/8/8/8/8/8/8/8 w - - - -"} customBoardStyle={
-                    {
-                        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
-                        borderRadius: "24px",
-                    }
-                    
-                } 
-                showBoardNotation={false}
-                />} */}
             </div>
             <div className="board-container page-positioning"> 
                 {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setTitle={setTitle} title={title}/>}
