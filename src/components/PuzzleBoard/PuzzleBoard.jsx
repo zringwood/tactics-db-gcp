@@ -106,6 +106,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
     return (
         <>
             <Chessboard
+                id="mainboard"
                 arePiecesDraggable={true} 
                 animationDuration={animationLength.current}
                 position={moveLogic.fen()}
