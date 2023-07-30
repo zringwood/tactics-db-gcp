@@ -12,13 +12,13 @@ function PuzzlePage({ category, ranges }) {
     const [positionFEN, setPositionFEN] = useState("")
     const [isHint, setIsHint] = useState(false)
     const [title, setTitle] = useState("")
-    const [isPuzzleOver, setIsPuzzleOver] = useState(false)
     const puzzleID = useParams().id
     const difficulty = useParams().difficulty
     const navigate = useNavigate();
-
     //Settings are passed through URL queries
     const [settings,] = useSearchParams()
+    //If there are no settings, we use default settings. 
+    settings.set("hidetitle", settings.get('hidetitle') || "off")
     //We pull this in so that we can hide the move animations when navigating between pages. 
     const location = useLocation()
     const [transition, setTransition] = useState("")
@@ -40,18 +40,8 @@ function PuzzlePage({ category, ranges }) {
             })
         
     }, [apiURL])
-    useEffect(() => {
-        if(isPuzzleOver && settings.get('autoserve') === 'on'){
-            setTimeout(() => 
-            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}${location.search}`)
-            , 500)
-            setIsPuzzleOver(false)
-        }
-    }, [isPuzzleOver, settings, navigate, category, difficulty, ranges, location.search])
     if (!positionFEN || !movesObjectNotation) {
-        return <div style={{margin:"0 auto",  width: "70vw", height: "70vw" }}>
-        <GlobalSpinner />
-    </div>
+        return <GlobalSpinner />
     }
     //Helper method. Converts camelCase to Title Case. 
     const titleCase = (camel) => {
@@ -67,54 +57,32 @@ function PuzzlePage({ category, ranges }) {
         return title
     }
 
-
+    
     return (
         <>
-            <div className={`board-container`}>
-                {<Chessboard position={"8/8/8/8/8/8/8/8 w - - - -"} customBoardStyle={
+        <div className={`board-container`}>
+            {<Chessboard position={"8/8/8/8/8/8/8/8 w - - - -"} customBoardStyle={
                     {
                         boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5 ',
                         borderRadius: "24px",
+                        position:"fixed"
                     }
-                    
-                } 
-                showBoardNotation={false}
-                />}
-            </div>
-            <div className="board-container page-positioning"> 
-                {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setTitle={setTitle} title={title}/>}
-            </div>
-            <div className="navpanel page-positioning">
-
-                <button className={`navbutton navbutton--backward ${visited.length === 0 && "navbutton--hide"}`} onClick={() => {
-                    if (visited.length > 0)
-                        navigate(`${visited.shift()}${location.search}`)
-                }}></button>
-
-                <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                {settings.get("hidetitles") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
-                {!transition ?
-                    <button className="navbutton navbutton--forward" onClick={() => {
-                        if (location.pathname.includes('introduction')) {
-                            if (puzzleID === 1)
-                                navigate(`/introduction/easy/2${location.search}`)
-                            else
-                                navigate(`/middlegames/easy/1${location.search}`)
-                        } else {
-                            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}${location.search}`)
-
-                        }
-                        setVisited([location.pathname, ...visited])
-                    }}></button>
-                    :
-                    <div style={{ marginLeft: "auto", width: "36px", height: "36px" }}>
-                        <GlobalSpinner />
-                    </div>}
-
-            </div>
+                } />}
+            {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} />} 
+        </div>
+        <div className="navpanel">
+            <button className="navbutton navbutton--backward"></button>
+            <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
+            {settings.get("hidetitle") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
+            {!transition ? 
+            <button className="navbutton navbutton--forward" onClick={() => { 
+                navigate(`/${category}/${difficulty}/${Math.ceil(Math.random()*ranges[`${category}_${difficulty}`])}`)}}></button>
+            :
+            <div style={{marginLeft: "auto", width: "36px", height: "36px"}}>
+            <GlobalSpinner />
+            </div>}
+            
+        </div>
         </>
     )
 }
-
-
-export default PuzzlePage
