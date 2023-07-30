@@ -86,3 +86,4 @@ function PuzzlePage({ category, ranges }) {
         </>
     )
 }
+export default PuzzlePage
