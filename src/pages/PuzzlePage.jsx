@@ -42,12 +42,15 @@ function PuzzlePage({ category, ranges }) {
         })
     }, [apiURL])
     useEffect(() => {
-        if(isPuzzleOver && localStorage.getItem('autoserve') === 'true'){
+        if(isPuzzleOver){
             setTitle("You Win!")
-            setTimeout(() => 
-            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
-            , 750)
-            setIsPuzzleOver(false)
+            if(localStorage.getItem('autoserve') === 'true'){
+                setTimeout(() => 
+                navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
+                , 750)
+                setIsPuzzleOver(false)
+            }
+
         }
     }, [isPuzzleOver, navigate, category, difficulty, ranges])
     if (!positionFEN || !movesObjectNotation) {
