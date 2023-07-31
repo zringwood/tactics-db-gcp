@@ -13,7 +13,6 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
     //The initial change of position shouldn't be animated. After that it should be. 
     const animationLength = useRef(0)
     const [highlightHint, setHightlightHint] = useState({})
-    
     //The state variables don't actually change on reload without this.  
     useEffect(() => {
         animationLength.current = 0
@@ -36,8 +35,8 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
             const newSquares = {}
             newSquares[square] = { background: "rgba(255, 0, 0, 0.4)" }
             setHighlightSquares(newSquares)
-        } else if (movesArray[moveIndex.current] === `${selectedSquare}${square}`) {
-            updatePuzzle(`${selectedSquare}${square}`)
+        } else if (movesArray[moveIndex.current].replace('q','') === `${selectedSquare}${square}`) {
+            updatePuzzle(movesArray[moveIndex.current])
             if (!isEndofPuzzle()) {
                 const halfSecond = 500
                 setTimeout(() => {
@@ -92,6 +91,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
     }
     
     const updatePuzzle = (move) => {
+        //Some puzzles have us promoting to queen. We want to remove that indication here. 
         moveLogic.move(move)
         moveIndex.current += 1;
         setShowHint(false)
@@ -115,6 +115,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 position={moveLogic.fen()}
                 onPieceDrop={onDrop}
                 onSquareClick={onClick}
+                autoPromoteToQueen={true}
                 boardOrientation={orientation}
                 customBoardStyle={
                     {
