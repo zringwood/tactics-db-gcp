@@ -5,7 +5,6 @@ import "../PuzzleBoard/PuzzleBoard.scss"
 
 function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint, setTitle, title }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
-    // const [position, setPosition] = useState(positionFEN)
     const moveIndex = useRef(0)
     //Used for click functionality
     const [selectedSquare, setSelectedSquare] = useState(undefined)
@@ -114,7 +113,8 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 boardOrientation={orientation}
                 customBoardStyle={
                     {
-                        borderRadius: "24px"
+                        borderRadius: "24px",
+                        boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)"
                     }
                 }
                 showBoardNotation={false}
