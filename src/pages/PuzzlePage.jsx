@@ -86,10 +86,11 @@ function PuzzlePage({ category, ranges }) {
                 {!transition ?
                     <button className="navbutton navbutton--forward" onClick={() => {
                         if (location.pathname.includes('introduction')) {
-                            if (puzzleID === 1)
-                                navigate(`/introduction/easy/2${location.search}`)
+                            console.log("Puzzle ID:", puzzleID)
+                            if (puzzleID === '1')
+                                navigate(`/introduction/easy/2`)
                             else
-                                navigate(`/middlegames/easy/1${location.search}`)
+                                navigate(`/middlegames/easy/1`)
                         } else {
                             navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}${location.search}`)
 
