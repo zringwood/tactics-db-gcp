@@ -6,7 +6,7 @@ import { useNavigate, useParams, useLocation } from "react-router"
 import { useSearchParams } from "react-router-dom";
 import GlobalSpinner from "../components/GlobalSpinner/GlobalSpinner";
 import Background_Image from "../assets/background_chessboard.svg"
-import db from "../components/Firebase/admin"
+
 function PuzzlePage({ category, ranges }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
     const [positionFEN, setPositionFEN] = useState("")
