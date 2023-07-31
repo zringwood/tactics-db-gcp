@@ -6,7 +6,7 @@ import { useNavigate, useParams, useLocation } from "react-router"
 import { useSearchParams } from "react-router-dom";
 import GlobalSpinner from "../components/GlobalSpinner/GlobalSpinner";
 import Background_Image from "../assets/background_chessboard.svg"
-
+import db from "../components/Firebase/admin"
 function PuzzlePage({ category, ranges }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
     const [positionFEN, setPositionFEN] = useState("")
@@ -22,12 +22,12 @@ function PuzzlePage({ category, ranges }) {
     //We pull this in so that we can hide the move animations when navigating between pages. 
     const location = useLocation()
     const [transition, setTransition] = useState("")
-    // useEffect(() => {
-    //     setTransition("win")
-    //     setTimeout(() => {
-    //         setTransition("")
-    //     }, 500)
-    // }, [location])
+    useEffect(() => {
+        setTransition("win")
+        setTimeout(() => {
+            setTransition("")
+        }, 500)
+    }, [location])
 
     const [visited, setVisited] = useState(!!localStorage.getItem("visited") ? localStorage.getItem("visited").split(',') : [])
     useEffect(() => {
@@ -35,7 +35,7 @@ function PuzzlePage({ category, ranges }) {
         if (visited.length > 0)
             localStorage.setItem("visited", visited.slice(0, 50))
     }, [visited])
-    let apiURL = `https://tactics-db-api-gcp-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}`
+    let apiURL = `https://tacticsdb-firebase-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}`
     useEffect(() => {
         axios.get(`${apiURL}`).then(response => {
             setMovesObjectNotation(response.data.moves);
