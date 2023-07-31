@@ -6,7 +6,7 @@ function Header({ranges}) {
     return ( 
         <header className='navbar'>
             {isShowingSettings && <SettingsPanel setIsShowingSettings={setIsShowingSettings} ranges={ranges}/>}
-            <button className={`navbar__settings ${isShowingSettings && "navbar__settings--animate"}`} onClick={() => setIsShowingSettings(!isShowingSettings)}></button>
+            <button className='navbar__settings' onClick={() => setIsShowingSettings(!isShowingSettings)}></button>
             <h2 className="navbar__title">Tactics DB</h2>
         </header>
     )
