@@ -24,9 +24,6 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
         localStorage.setItem("category", checkedCategory)
         localStorage.setItem("hideTitles", hideTitles)
         localStorage.setItem("autoserve",autoserve)
-
-        console.log("Auto Serve: ", autoserve)
-        console.log("Hide Titles: ", hideTitles)
         navigate(`${checkedCategory}/${checkedRadio}/${Math.ceil(Math.random() * ranges[`${checkedCategory}_${checkedRadio}`])}`)
     }
 

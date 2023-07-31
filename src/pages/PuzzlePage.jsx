@@ -42,10 +42,11 @@ function PuzzlePage({ category, ranges }) {
         })
     }, [apiURL])
     useEffect(() => {
-        if(isPuzzleOver && localStorage.get('autoserve') === 'on'){
+        if(isPuzzleOver && localStorage.getItem('autoserve') === 'true'){
+            setTitle("You Win!")
             setTimeout(() => 
             navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
-            , 500)
+            , 750)
             setIsPuzzleOver(false)
         }
     }, [isPuzzleOver, navigate, category, difficulty, ranges])
@@ -72,7 +73,7 @@ function PuzzlePage({ category, ranges }) {
     return (
         <>
             <div className={`board-container`}> 
-                {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setTitle={setTitle} title={title}/>}
+                {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setTitle={setTitle} title={title} setIsPuzzleOver={setIsPuzzleOver}/>}
             </div>
             <div className="navpanel">
                 <button className={`navbutton navbutton--backward ${visited.length === 0 && "navbutton--hide"}`} onClick={() => {
@@ -81,7 +82,7 @@ function PuzzlePage({ category, ranges }) {
                 }}></button>
 
                 <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                {localStorage.getItem("hideTitles") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
+                {localStorage.getItem("hideTitles")==='false' && <p className="navpanel__title">{titleCase(title)}</p>}
                 {!transition ?
                     <button className="navbutton navbutton--forward" onClick={() => {
                         if (location.pathname.includes('introduction')) {

@@ -3,7 +3,7 @@ import { Chessboard } from "react-chessboard"
 import { Chess } from "chess.js"
 import "../PuzzleBoard/PuzzleBoard.scss"
 
-function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint, setTitle, title }) {
+function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint, setTitle, title, setIsPuzzleOver }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
     const moveIndex = useRef(0)
     //Used for click functionality
@@ -29,7 +29,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
             hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
         setHightlightHint(hintHightlight)
     }, [showHint, movesArray])
-
+    
     const onClick = (square) => {
         if (!selectedSquare) {
             setSelectedSquare(square)
@@ -43,6 +43,8 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 setTimeout(() => {
                     updatePuzzle(movesArray[moveIndex.current])
                 }, halfSecond)
+            }else{
+                setIsPuzzleOver(true)
             }
             setSelectedSquare(undefined)
             setHighlightSquares({})
@@ -70,6 +72,8 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 setTimeout(() => {
                     updatePuzzle(movesArray[moveIndex.current])
                 }, halfSecond)
+            }else{
+                setIsPuzzleOver(true)
             }
             return true;
         } else {
@@ -86,6 +90,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
     const isEndofPuzzle = () => {
         return moveIndex.current >= movesArray.length
     }
+    
     const updatePuzzle = (move) => {
         moveLogic.move(move)
         moveIndex.current += 1;
@@ -114,7 +119,6 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 customBoardStyle={
                     {
                         borderRadius: "24px",
-                       
                     }
                 }
                 showBoardNotation={false}
