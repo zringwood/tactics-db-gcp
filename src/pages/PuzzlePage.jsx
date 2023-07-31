@@ -42,16 +42,17 @@ function PuzzlePage({ category, ranges }) {
         })
     }, [apiURL])
     useEffect(() => {
-        if(isPuzzleOver){
+        if(isPuzzleOver)
             setTitle("You Win!")
-            if(localStorage.getItem('autoserve') === 'true'){
+    }, [isPuzzleOver])
+    useEffect(() => {
+            if(isPuzzleOver && localStorage.getItem('autoserve') === 'true'){
                 setTimeout(() => 
                 navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
                 , 750)
                 setIsPuzzleOver(false)
             }
-
-        }
+        
     }, [isPuzzleOver, navigate, category, difficulty, ranges])
     if (!positionFEN || !movesObjectNotation) {
         return <div style={{margin:"0 auto",  width: "70vw", height: "70vw" }}>
