@@ -77,11 +77,9 @@ function PuzzlePage({ category, ranges }) {
     return (
         <>
             <div className="board-container"> 
-                {/* {transition && <img className="background-board" src={Background_Image} alt = ""></img>} */}
                 {!transition && <PuzzleBoard positionFEN={positionFEN} movesArray={movesObjectNotation.split(' ')} orientation={positionFEN.indexOf('b') > positionFEN.indexOf('w') ? "white" : "black"} showHint={isHint} setShowHint={setIsHint} setTitle={setTitle} title={title}/>}
             </div>
             <div className="navpanel">
-
                 <button className={`navbutton navbutton--backward ${visited.length === 0 && "navbutton--hide"}`} onClick={() => {
                     if (visited.length > 0)
                         navigate(`${visited.shift()}${location.search}`)
