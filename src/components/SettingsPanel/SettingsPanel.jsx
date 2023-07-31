@@ -4,17 +4,15 @@ import { useState} from 'react'
 import { useNavigate } from 'react-router'
 function SettingsPanel({ setIsShowingSettings, ranges }) {
     const [position, setPosition] = useState(0)
-    const [checkedRadio, setCheckedRadio] = useState("Easy")
-    const [checkedCategory, setCheckedCategory] = useState("Middlegames")
-    const [autoserve, setAutoServe] = useState("off")
-    const [hideTitles, setHideTitles] = useState("off")
+    const [checkedRadio, setCheckedRadio] = useState(localStorage.getItem('difficulty') || "Easy")
+    const [checkedCategory, setCheckedCategory] = useState(localStorage.getItem('category') || "Middlegames")
+    const [autoserve, setAutoServe] = useState(localStorage.getItem('autoserve') || "off")
+    const [hideTitles, setHideTitles] = useState(localStorage.getItem('hideTitles') || "off")
     const navigate = useNavigate()
     const onSwipeRightListener = () => {
-
         setIsShowingSettings(false)
     }
     const onSwipeListener = (p) => {
-
         if (p.x !== 0) {
             setPosition(p.x)
         }
@@ -24,8 +22,11 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
         const difficulty = evt.target.difficulty.value;
         setIsShowingSettings(false)
         const category = evt.target.category.value
-       
-        navigate(`${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}?hidetitles=${hideTitles}&autoserve=${autoserve}`)
+        localStorage.setItem("difficulty", difficulty)
+        localStorage.setItem("category", category)
+        localStorage.setItem("hideTitles", hideTitles)
+        localStorage.setItem("autoserve",autoserve)
+        navigate(`${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
     }
 
     return (

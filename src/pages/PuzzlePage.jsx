@@ -3,9 +3,7 @@ import "../pages/PuzzlePage.scss"
 import axios from "axios";
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useLocation } from "react-router"
-import { useSearchParams } from "react-router-dom";
 import GlobalSpinner from "../components/GlobalSpinner/GlobalSpinner";
-import Background_Image from "../assets/background_chessboard.svg"
 
 function PuzzlePage({ category, ranges }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
@@ -16,9 +14,6 @@ function PuzzlePage({ category, ranges }) {
     const puzzleID = useParams().id
     const difficulty = useParams().difficulty
     const navigate = useNavigate();
-
-    //Settings are passed through URL queries
-    const [settings,] = useSearchParams()
     //We pull this in so that we can hide the move animations when navigating between pages. 
     const location = useLocation()
     const [transition, setTransition] = useState("")
@@ -35,25 +30,25 @@ function PuzzlePage({ category, ranges }) {
         if (visited.length > 0)
             localStorage.setItem("visited", visited.slice(0, 50))
     }, [visited])
-    let apiURL = `https://tacticsdb-firebase-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}`
+    let apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}`
     useEffect(() => {
         axios.get(`${apiURL}`).then(response => {
-            setMovesObjectNotation(response.data.moves);
-            setPositionFEN(response.data.fen);
-            let possibleTitles = response.data.themes.split(" ")
+            setMovesObjectNotation(response.data.Moves);
+            setPositionFEN(response.data.FEN);
+            let possibleTitles = response.data.Themes.split(" ")
             setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
         }).catch(response => {
             console.error(response);
         })
     }, [apiURL])
     useEffect(() => {
-        if(isPuzzleOver && settings.get('autoserve') === 'on'){
+        if(isPuzzleOver && localStorage.get('autoserve') === 'on'){
             setTimeout(() => 
-            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}${location.search}`)
+            navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
             , 500)
             setIsPuzzleOver(false)
         }
-    }, [isPuzzleOver, settings, navigate, category, difficulty, ranges, location.search])
+    }, [isPuzzleOver, navigate, category, difficulty, ranges])
     if (!positionFEN || !movesObjectNotation) {
         return <div style={{margin:"0 auto",  width: "70vw", height: "70vw" }}>
         <GlobalSpinner />
@@ -86,7 +81,7 @@ function PuzzlePage({ category, ranges }) {
                 }}></button>
 
                 <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                {settings.get("hidetitles") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
+                {localStorage.getItem("hideTitles") !== 'on' && <p className="navpanel__title">{titleCase(title)}</p>}
                 {!transition ?
                     <button className="navbutton navbutton--forward" onClick={() => {
                         if (location.pathname.includes('introduction')) {
