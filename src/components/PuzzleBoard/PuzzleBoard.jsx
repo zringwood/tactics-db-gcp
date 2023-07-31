@@ -114,7 +114,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 customBoardStyle={
                     {
                         borderRadius: "24px",
-                        boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)"
+                       
                     }
                 }
                 showBoardNotation={false}
