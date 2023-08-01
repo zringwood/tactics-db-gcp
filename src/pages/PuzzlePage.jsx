@@ -41,15 +41,22 @@ function PuzzlePage({ category, ranges }) {
             console.error(response);
         })
     }, [apiURL])
+    //Autoserve
     useEffect(() => {
             if(isPuzzleOver && localStorage.getItem('autoserve') === 'true'){
-                setTimeout(() => 
-                navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
+                setTimeout(() => {
+                if(category === 'introduction' && puzzleID === 1)
+                    navigate(`/${category}/${difficulty}/${2}`)
+                else if (category === 'introduction' && puzzleID === 2)
+                    navigate(`/middlegames/easy/1`)
+                else
+                    navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
+            }
                 , 750)
                 setIsPuzzleOver(false)
             }
         
-    }, [isPuzzleOver, navigate, category, difficulty, ranges])
+    }, [isPuzzleOver, navigate, category, difficulty, ranges, puzzleID])
     if (!positionFEN || !movesObjectNotation) {
         return <div style={{margin:"0 auto",  width: "70vw", height: "70vw" }}>
         <GlobalSpinner />
