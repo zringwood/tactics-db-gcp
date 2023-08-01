@@ -44,6 +44,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 }, halfSecond)
             }else{
                 setTitle("You Win!")
+                setIsPuzzleOver(true)
             }
             setSelectedSquare(undefined)
             setHighlightSquares({})
@@ -73,6 +74,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 }, halfSecond)
             }else{
                 setTitle("You Win!")
+                setIsPuzzleOver(true)
             }
             return true;
         } else {
