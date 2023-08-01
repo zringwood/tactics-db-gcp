@@ -68,5 +68,8 @@ body{
     }
     &__title{
         margin-left: 1rem;
+        &--hide{
+            opacity: 0;
+        }
     }
 }
