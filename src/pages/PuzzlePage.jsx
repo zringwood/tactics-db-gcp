@@ -89,7 +89,7 @@ function PuzzlePage({ category, ranges }) {
                 }}></button>
 
                 <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                <p className={`navpanel__title ${!(localStorage.getItem("hideTitles")==='true') && "navpanel__title--hide"}`}>{titleCase(title)}</p>
+                <p className={`navpanel__title ${(localStorage.getItem("hideTitles")==='true') && "navpanel__title--hide"}`}>{titleCase(title)}</p>
                 {!transition ?
                     <button className="navbutton navbutton--forward" onClick={() => {
                         if (location.pathname.includes('introduction')) {
