@@ -42,10 +42,6 @@ function PuzzlePage({ category, ranges }) {
         })
     }, [apiURL])
     useEffect(() => {
-        if(isPuzzleOver)
-            setTitle("You Win!")
-    }, [isPuzzleOver])
-    useEffect(() => {
             if(isPuzzleOver && localStorage.getItem('autoserve') === 'true'){
                 setTimeout(() => 
                 navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)

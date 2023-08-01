@@ -21,7 +21,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
          moveIndex.current = 0;
          setShowHint(false)
     }, [positionFEN, setShowHint])
-
+    
     useEffect(() => {
         let hintHightlight = {}
         if (showHint && moveIndex.current < movesArray.length)
@@ -43,7 +43,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                     updatePuzzle(movesArray[moveIndex.current])
                 }, halfSecond)
             }else{
-                setIsPuzzleOver(true)
+                setTitle("You Win!")
             }
             setSelectedSquare(undefined)
             setHighlightSquares({})
@@ -72,7 +72,7 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                     updatePuzzle(movesArray[moveIndex.current])
                 }, halfSecond)
             }else{
-                setIsPuzzleOver(true)
+                setTitle("You Win!")
             }
             return true;
         } else {
