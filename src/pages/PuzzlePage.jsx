@@ -45,9 +45,9 @@ function PuzzlePage({ category, ranges }) {
     useEffect(() => {
             if(isPuzzleOver && localStorage.getItem('autoserve') === 'true'){
                 setTimeout(() => {
-                if(category === 'introduction' && puzzleID === 1)
+                if(category === 'introduction' && puzzleID === '1')
                     navigate(`/${category}/${difficulty}/${2}`)
-                else if (category === 'introduction' && puzzleID === 2)
+                else if (category === 'introduction' && puzzleID === '2')
                     navigate(`/middlegames/easy/1`)
                 else
                     navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
