@@ -5,114 +5,116 @@ import "../PuzzleBoard/PuzzleBoard.scss"
 
 function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHint, setTitle, title, setIsPuzzleOver }) {
     const [moveLogic, setMoveLogic] = useState(new Chess(positionFEN))
-    const moveIndex = useRef(0)
     //Used for click functionality
     const [selectedSquare, setSelectedSquare] = useState(undefined)
-    //Used for highlighting squares
     const [highlightSquares, setHighlightSquares] = useState({})
+    const [highlightHint, setHightlightHint] = useState({})
+
+    const moveIndex = useRef(0)
     //The initial change of position shouldn't be animated. After that it should be. 
     const animationLength = useRef(0)
-    const [highlightHint, setHightlightHint] = useState({})
-    //The state variables don't actually change on reload without this.  
+
+    //Resets the state variables for a new puzzle. 
     useEffect(() => {
         animationLength.current = 0
         setMoveLogic(new Chess(positionFEN))
         //moveIndex must be reset when the puzzle resets.
-         moveIndex.current = 0;
-         setShowHint(false)
+        moveIndex.current = 0;
+        setShowHint(false)
     }, [positionFEN, setShowHint])
-    
+
+    //Adds the hint sqaure to an array that the board can display
     useEffect(() => {
         let hintHightlight = {}
         if (showHint && moveIndex.current < movesArray.length)
             hintHightlight[movesArray[moveIndex.current].slice(0, 2)] = { background: "rgba(255, 255, 0, 0.4)" }
         setHightlightHint(hintHightlight)
     }, [showHint, movesArray])
-    
+
     const onClick = (square) => {
         if (!selectedSquare) {
-            setSelectedSquare(square)
-            const newSquares = {}
-            newSquares[square] = { background: "rgba(255, 0, 0, 0.4)" }
-            setHighlightSquares(newSquares)
-        } else if (movesArray[moveIndex.current].replace('q','') === `${selectedSquare}${square}`) {
+            updateHighlightSquare(square)
+        } else if (isCorrectMove(`${selectedSquare}${square}`)) {
             updatePuzzle(movesArray[moveIndex.current])
             if (!isEndofPuzzle()) {
-                const halfSecond = 500
-                setTimeout(() => {
-                    updatePuzzle(movesArray[moveIndex.current])
-                }, halfSecond)
-            }else{
-                setTitle("You Win!")
-                setIsPuzzleOver(true)
+                opponentMove(movesArray[moveIndex.current])
+            } else {
+                endPuzzle("You Win!")
             }
-            setSelectedSquare(undefined)
-            setHighlightSquares({})
-        }
-        else {
-            if(square !== selectedSquare){
-                setTitle("Try Again")
-                setTimeout(() => {
-                    setTitle(title)
-                }, 1000)
-
+            updateHighlightSquare(undefined)
+        } else {
+            if (square !== selectedSquare) {
+                displayWrongMoveText("Try Again!")
             }
-            setSelectedSquare(undefined)
-            setHighlightSquares({})
+            updateHighlightSquare(undefined)
         }
 
 
     }
+
     const onDrop = (sourceSquare, targetSquare) => {
         let move = `${sourceSquare}${targetSquare}`
         if (isCorrectMove(move)) {
-            updatePuzzle(move)
+            updatePuzzle(movesArray[moveIndex.current])
             if (!isEndofPuzzle()) {
-                const halfSecond = 500
-                setTimeout(() => {
-                    updatePuzzle(movesArray[moveIndex.current])
-                }, halfSecond)
-            }else{
-                setTitle("You Win!")
-                setIsPuzzleOver(true)
+                opponentMove(movesArray[moveIndex.current])
+            } else {
+                endPuzzle('You Win!')
             }
             return true;
-        } else {
-            setTitle("Try Again")
-            setTimeout(() => {
-                setTitle(title)
-            }, 1000)
-            return false;
         }
+        displayWrongMoveText('Try Again')
+        return false;
+
+    }
+    const endPuzzle = (endPuzzleMessage) => {
+        setTitle(endPuzzleMessage)
+        setIsPuzzleOver(true)
+    }
+    const updateHighlightSquare = (square) => {
+        setSelectedSquare(square)
+        const newSquares = {}
+        newSquares[square] = { background: "rgba(255, 0, 0, 0.4)" }
+        setHighlightSquares(newSquares)
+    }
+    const displayWrongMoveText = (wrongMoveMessage) => {
+        setTitle(wrongMoveMessage)
+        const ONE_SECOND = 1000;
+        setTimeout(() => {
+            setTitle(title)
+        }, ONE_SECOND)
     }
     const isCorrectMove = (move) => {
-        return move === movesArray[moveIndex.current]
+        return move.replace('q', '') === movesArray[moveIndex.current]
     }
     const isEndofPuzzle = () => {
         return moveIndex.current >= movesArray.length
     }
-    
+
     const updatePuzzle = (move) => {
-        //Some puzzles have us promoting to queen. We want to remove that indication here. 
         moveLogic.move(move)
         moveIndex.current += 1;
         setShowHint(false)
         setMoveLogic(new Chess(moveLogic.fen()))
     }
-    
+    const opponentMove = (move) => {
+        moveIndex.current += 1;
+        const HALF_SECOND = 500;
+        setTimeout(() => {
+            moveLogic.move(move)
+            setMoveLogic(new Chess(moveLogic.fen()))
+            setShowHint(false)
+        }, HALF_SECOND)
+    }
     //Plays the first move. 
     if (moveIndex.current === 0) {
-        moveIndex.current += 1;
-        setTimeout(() => {
-            moveLogic.move(movesArray[0])
-            animationLength.current = 300
-            setMoveLogic(new Chess(moveLogic.fen()))
-        }, 500)
+        animationLength.current = 300
+        opponentMove(movesArray[0])
     }
     return (
         <>
             <Chessboard
-                arePiecesDraggable={true} 
+                arePiecesDraggable={true}
                 animationDuration={animationLength.current}
                 position={moveLogic.fen()}
                 onPieceDrop={onDrop}
@@ -128,9 +130,9 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
                 customSquareStyles={{
                     ...highlightSquares,
                     ...highlightHint
-                }} 
-                />
-           
+                }}
+            />
+
         </>
     )
 }
