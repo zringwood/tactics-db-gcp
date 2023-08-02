@@ -16,12 +16,13 @@ function PuzzlePage({ category, ranges }) {
     const navigate = useNavigate();
     //We pull this in so that we can hide the move animations when navigating between pages. 
     const location = useLocation()
-    const [transition, setTransition] = useState("")
+    const [transition, setTransition] = useState(false)
     useEffect(() => {
-        setTransition("win")
+        setTransition(true)
+        const HALF_SECOND = 500;
         setTimeout(() => {
-            setTransition("")
-        }, 500)
+            setTransition(false)
+        }, HALF_SECOND)
     }, [location])
 
     const [visited, setVisited] = useState(!!localStorage.getItem("visited") ? localStorage.getItem("visited").split(',') : [])
@@ -30,7 +31,7 @@ function PuzzlePage({ category, ranges }) {
         if (visited.length > 0)
             localStorage.setItem("visited", visited.slice(0, 50))
     }, [visited])
-    let apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}`
+    const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}`
     useEffect(() => {
         axios.get(`${apiURL}`).then(response => {
             setMovesObjectNotation(response.data.Moves);
@@ -43,7 +44,8 @@ function PuzzlePage({ category, ranges }) {
     }, [apiURL])
     //Autoserve
     useEffect(() => {
-            if(isPuzzleOver && localStorage.getItem('autoserve') === 'true'){
+            if(isPuzzleOver && localStorage.getItem('autoServe') === 'true'){
+                const HALF_SECOND = 500;
                 setTimeout(() => {
                 if(category === 'introduction' && puzzleID === '1')
                     navigate(`/${category}/${difficulty}/${2}`)
@@ -52,30 +54,15 @@ function PuzzlePage({ category, ranges }) {
                 else
                     navigate(`/${category}/${difficulty}/${Math.ceil(Math.random() * ranges[`${category}_${difficulty}`])}`)
             }
-                , 750)
+                , HALF_SECOND)
                 setIsPuzzleOver(false)
             }
-        
     }, [isPuzzleOver, navigate, category, difficulty, ranges, puzzleID])
     if (!positionFEN || !movesObjectNotation) {
         return <div style={{margin:"0 auto",  width: "70vw", height: "70vw" }}>
         <GlobalSpinner />
     </div>
     }
-    //Helper method. Converts camelCase to Title Case. 
-    const titleCase = (camel) => {
-        let title = ""
-        title += camel[0].toUpperCase()
-        for (let i = 1; i < camel.length - 1; i++) {
-            title += camel[i]
-            if (camel[i + 1].toUpperCase() === camel[i + 1]) {
-                title += " "
-            }
-        }
-        title += camel[camel.length - 1]
-        return title
-    }
-
 
     return (
         <>
@@ -89,11 +76,11 @@ function PuzzlePage({ category, ranges }) {
                 }}></button>
 
                 <button className={`navbutton navbutton--${isHint ? 'hintactive' : 'hint'}`} onClick={() => setIsHint(!isHint)}></button>
-                <p className={`navpanel__title ${(localStorage.getItem("hideTitles")==='true') && "navpanel__title--hide"}`}>{titleCase(title)}</p>
+                
+                <p className={`navpanel__title ${(localStorage.getItem("hideTitles") === "true") && "navpanel__title--hide"}`}>{titleCase(title)}</p>
                 {!transition ?
                     <button className="navbutton navbutton--forward" onClick={() => {
                         if (location.pathname.includes('introduction')) {
-                            console.log("Puzzle ID:", puzzleID)
                             if (puzzleID === '1')
                                 navigate(`/introduction/easy/2`)
                             else
@@ -113,6 +100,20 @@ function PuzzlePage({ category, ranges }) {
         </>
     )
 }
+//Helper method. Converts camelCase to Title Case. 
+const titleCase = (camel) => {
+    let title = ""
+    title += camel[0].toUpperCase()
+    for (let i = 1; i < camel.length - 1; i++) {
+        title += camel[i]
+        if (camel[i + 1].toUpperCase() === camel[i + 1]) {
+            title += " "
+        }
+    }
+    title += camel[camel.length - 1]
+    return title
+}
+
 
 
 export default PuzzlePage

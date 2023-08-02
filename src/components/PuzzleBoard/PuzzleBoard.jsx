@@ -48,8 +48,6 @@ function PuzzleBoard({ positionFEN, movesArray, orientation, showHint, setShowHi
             }
             updateHighlightSquare(undefined)
         }
-
-
     }
 
     const onDrop = (sourceSquare, targetSquare) => {
