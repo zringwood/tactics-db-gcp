@@ -67,11 +67,11 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
                 
                 <div className='flex-container'>
                     <label htmlFor='hideTitles'>Hide Titles</label>
-                    <input type="checkbox" className='settingsform__checkbox' id="hideTitles" name="hideTitle" defaultChecked={Boolean(localStorage.getItem('hideTitles'))} onChange={(evt) => {setHideTitles(evt.target.checked)}}/>
+                    <input type="checkbox" className='settingsform__checkbox' id="hideTitles" name="hideTitle" defaultChecked={localStorage.getItem('hideTitles')==='true'} onChange={(evt) => {setHideTitles(evt.target.checked)}}/>
                 </div>
                 <div className='flex-container'>
                     <label htmlFor='autoServe'>Serve Puzzles Automatically</label>
-                    <input type="checkbox" className='settingsform__checkbox' id="autoServe" name="autoServe" defaultChecked={Boolean(localStorage.getItem('autoServe'))} onChange={(evt) => setautoServe(evt.target.checked)}/>
+                    <input type="checkbox" className='settingsform__checkbox' id="autoServe" name="autoServe" defaultChecked={localStorage.getItem('autoServe')==='true'} onChange={(evt) => setautoServe(evt.target.checked)}/>
                 </div>
                
                 <button type="submit" className='settingsform__submit'>New Puzzle</button>
