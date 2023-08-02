@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useLocation } from "react-router"
 import GlobalSpinner from "../components/GlobalSpinner/GlobalSpinner";
 
-function PuzzlePage({ category, ranges }) {
+function PuzzlePage({ ranges }) {
     const [movesObjectNotation, setMovesObjectNotation] = useState("")
     const [positionFEN, setPositionFEN] = useState("")
     const [isHint, setIsHint] = useState(false)
@@ -13,6 +13,7 @@ function PuzzlePage({ category, ranges }) {
     const [isPuzzleOver, setIsPuzzleOver] = useState(false)
     const puzzleID = useParams().id
     const difficulty = useParams().difficulty
+    const category = useParams().category
     const navigate = useNavigate();
     //We pull this in so that we can hide the move animations when navigating between pages. 
     const location = useLocation()

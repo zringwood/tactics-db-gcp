@@ -1,13 +1,15 @@
 import '../SettingsPanel/SettingsPanel.scss'
 import { Swipe } from "react-swipe-component"
 import { useState} from 'react'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 function SettingsPanel({ setIsShowingSettings, ranges }) {
     const [position, setPosition] = useState(0)
-    const [difficulty, setDifficulty] = useState(localStorage.getItem('difficulty') || "easy")
-    const [category, setCategory] = useState(localStorage.getItem('category') || "middlegames")
-    const [autoServe, setautoServe] = useState(Boolean(localStorage.getItem('autoServe')))
-    const [hideTitles, setHideTitles] = useState(Boolean(localStorage.getItem('hideTitles')))
+    //We don't have access to params because the header is outside of the routes. 
+    const defaultSettings = useLocation().pathname.split('/')
+    const [category, setCategory] = useState(localStorage.getItem('category') || defaultSettings[1])
+    const [difficulty, setDifficulty] = useState(localStorage.getItem('difficulty') || defaultSettings[2])
+    const [autoServe, setautoServe] = useState(localStorage.getItem('autoServe'))
+    const [hideTitles, setHideTitles] = useState(localStorage.getItem('hideTitles'))
     const navigate = useNavigate()
     const onSwipeRightListener = () => {
         setIsShowingSettings(false)
@@ -47,11 +49,11 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
                 <div className='flex-container'>
                     <p className='settingsform__label settingsform__label--radio'>{titleForm(difficulty)}</p>
                     <div className='radiobuttons'>
-                        <input type="radio" className='settingsform__radio' id='Easy' name="difficulty" value="easy" defaultChecked={localStorage.getItem('difficulty')==='easy'} onChange={(evt) => setDifficulty(evt.target.value)} />
-                        <input type="radio" className='settingsform__radio' id='Medium' name="difficulty" value="medium"defaultChecked={localStorage.getItem('difficulty')==='medium'} onChange={(evt) => setDifficulty(evt.target.value)} />
-                        <input type="radio" className='settingsform__radio' id='Hard' name="difficulty" value="hard" defaultChecked={localStorage.getItem('difficulty')==='hard'}onChange={(evt) => setDifficulty(evt.target.value)} />
-                        <input type="radio" className='settingsform__radio' id='GM' name="difficulty" value="grandmaster" defaultChecked={localStorage.getItem('difficulty')==='grandmaster'}onChange={(evt) => setDifficulty(evt.target.value)} />
-                        <input type="radio" className='settingsform__radio' id='Engine' name="difficulty" value="engine"defaultChecked={localStorage.getItem('difficulty')==='engine'} onChange={(evt) => setDifficulty(evt.target.value)} />
+                        <input type="radio" className='settingsform__radio' id='Easy' name="difficulty" value="easy" defaultChecked={defaultSettings[2]==='easy'} onChange={(evt) => setDifficulty(evt.target.value)} />
+                        <input type="radio" className='settingsform__radio' id='Medium' name="difficulty" value="medium"defaultChecked={defaultSettings[2]==='medium'} onChange={(evt) => setDifficulty(evt.target.value)} />
+                        <input type="radio" className='settingsform__radio' id='Hard' name="difficulty" value="hard" defaultChecked={defaultSettings[2]==='hard'}onChange={(evt) => setDifficulty(evt.target.value)} />
+                        <input type="radio" className='settingsform__radio' id='GM' name="difficulty" value="grandmaster" defaultChecked={defaultSettings[2]==='grandmaster'}onChange={(evt) => setDifficulty(evt.target.value)} />
+                        <input type="radio" className='settingsform__radio' id='Engine' name="difficulty" value="engine"defaultChecked={defaultSettings[2]==='engine'} onChange={(evt) => setDifficulty(evt.target.value)} />
                     </div>
                 </div>
                 
@@ -60,8 +62,8 @@ function SettingsPanel({ setIsShowingSettings, ranges }) {
                 <div className='flex-container'>
                     <p className='settingsform__label settingsform__label--radio'>{titleForm(category)}</p>
                     <div className='radiobuttons'>
-                        <input type="radio" className='settingsform__radio' id='Middlegames' name="category" value="middlegames" defaultChecked={localStorage.getItem('category')==='middlegames'} onChange={(evt) => setCategory(evt.target.value)} />
-                        <input type="radio" className='settingsform__radio' id='Endgames' name="category" value="endgames" defaultChecked={localStorage.getItem('category')==='endgames'} onChange={(evt) => setCategory(evt.target.value)} />
+                        <input type="radio" className='settingsform__radio' id='Middlegames' name="category" value="middlegames" defaultChecked={defaultSettings[1]==='middlegames'} onChange={(evt) => setCategory(evt.target.value)} />
+                        <input type="radio" className='settingsform__radio' id='Endgames' name="category" value="endgames" defaultChecked={defaultSettings[1]==='endgames'} onChange={(evt) => setCategory(evt.target.value)} />
                     </div>
                 </div>
                 

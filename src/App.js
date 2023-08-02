@@ -1,7 +1,10 @@
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import PuzzlePage from './pages/PuzzlePage'
 import Header from './components/Header/Header'
+
 function App() {
+  //It would be more correct to read these numbers in from the API, but it would also double the number of database
+  //queries, which would cost me more money. 
   const ranges = {
     middlegames_easy:42417,
     middlegames_medium:265410,
@@ -12,11 +15,9 @@ function App() {
     endgames_medium:421053,
     endgames_hard:380018,
     endgames_grandmaster:373110,
-    endgames_engine:304628,
-    totalGames: 3366499,
+    endgames_engine:304628
   }
-
-  let rootTarget = `/middlegames/easy/${Math.ceil(Math.random() * ranges.middlegames_easy)}`
+  let rootTarget = ""
   //If the user has never used our app before, we want to load two ultra-simple puzzles to teach the controls. 
   if(!localStorage.getItem("visited")){
     rootTarget =  `introduction/easy/1`
@@ -30,15 +31,7 @@ function App() {
       <Header ranges = {ranges}/>
       <Routes>
       <Route path = "/" element ={<Navigate to={rootTarget}/>}/>
-      <Route path = "/middlegames/">
-        <Route path=":difficulty/:id" element={<PuzzlePage category={"middlegames"} ranges={ranges} />}/>
-      </Route>
-      <Route path = "/endgames/" >
-        <Route path=":difficulty/:id" element={<PuzzlePage category={"endgames"} ranges={ranges}/>}/>
-      </Route>
-      <Route path = "/introduction/" >
-        <Route path=":difficulty/:id" element={<PuzzlePage category={"introduction"} ranges={ranges}/>}/>
-      </Route>
+      <Route path=":category/:difficulty/:id" element={<PuzzlePage ranges={ranges}/>}/>
       </Routes>
       </BrowserRouter>
     </>
