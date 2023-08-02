@@ -25,7 +25,7 @@ $tablet-indent: 2.25rem;
 //This needs to change based on the width of the window.
 //We get the width with 100vw, find how much larger the window is than our desktop breakpoint,
 //then divide it by 2 so that the indent can be applied to both sides.
-$base-desktop-indent: 25rem;
+$base-desktop-indent: 30rem;
 $desktop-indent: calc(
   $base-desktop-indent + ((1vw * 100) - $desktop-breakpoint) / 2
 );
