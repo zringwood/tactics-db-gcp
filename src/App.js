@@ -20,6 +20,9 @@ function App() {
   //If the user has never used our app before, we want to load two ultra-simple puzzles to teach the controls. 
   if(!localStorage.getItem("visited")){
     rootTarget =  `introduction/easy/1`
+  }else{
+    //Otherwise, send him to the last puzzle he was on before. 
+    rootTarget = localStorage.getItem('visited').split(',')[0]
   }
   return (
     <>
