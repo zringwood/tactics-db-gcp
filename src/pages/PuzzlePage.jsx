@@ -32,12 +32,13 @@ function PuzzlePage({ ranges }) {
         if (visited.length > 0)
             localStorage.setItem("visited", visited.slice(0, 50))
     }, [visited])
-    const apiURL = `http://localhost:8080/${category}/${difficulty}/${puzzleID}`
+    
+    const apiURL = `https://tacticsdb-firebase-wqrtz47qla-uc.a.run.app/${category}/${difficulty}/${puzzleID}`
     useEffect(() => {
         axios.get(`${apiURL}`).then(response => {
-            setMovesObjectNotation(response.data.Moves);
-            setPositionFEN(response.data.FEN);
-            let possibleTitles = response.data.Themes.split(" ")
+            setMovesObjectNotation(response.data.moves);
+            setPositionFEN(response.data.fen);
+            let possibleTitles = response.data.themes.split(" ")
             setTitle(possibleTitles[Math.floor(Math.random() * possibleTitles.length)])
         }).catch(response => {
             console.error(response);
@@ -60,9 +61,7 @@ function PuzzlePage({ ranges }) {
             }
     }, [isPuzzleOver, navigate, category, difficulty, ranges, puzzleID])
     if (!positionFEN || !movesObjectNotation) {
-        return <div style={{margin:"0 auto",  width: "70vw", height: "70vw" }}>
-        <GlobalSpinner />
-    </div>
+        return <GlobalSpinner style={{margin:"0 auto",  width: "70vw", height: "70vw" }}/>
     }
 
     return (
@@ -93,9 +92,9 @@ function PuzzlePage({ ranges }) {
                         setVisited([location.pathname, ...visited])
                     }}></button>
                     :
-                    <div style={{ marginLeft: "auto", width: "36px", height: "36px" }}>
-                        <GlobalSpinner />
-                    </div>}
+                    
+                        <GlobalSpinner style={{ marginLeft: "auto", width: "36px", height: "36px" }}/>
+                   }
 
             </div>
         </>

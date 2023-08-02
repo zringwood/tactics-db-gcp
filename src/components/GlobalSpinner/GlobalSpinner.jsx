@@ -1,9 +1,6 @@
 import "../GlobalSpinner/GlobalSpinner.scss"
 
-function GlobalSpinner(){
-    return(
-    <div className="spinner">
-    </div>
-    )
+function GlobalSpinner({style}){
+    return <div className="spinner" style={style}/>
 }
 export default GlobalSpinner
